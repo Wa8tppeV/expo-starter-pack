@@ -1,28 +1,28 @@
 {
   "expo": {
-    "name": "Expo Starter Pack",
-    "slug": "expo-starter-pack",
+    "name": "DMH İnşaat",
+    "slug": "dmh-insaat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "expostarterpack",
+    "scheme": "dmhinsaat",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.atariq.expostarterpack",
+      "bundleIdentifier": "com.dmhinsaat.mobile",
       "userInterfaceStyle": "automatic"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#F7F7F5",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.atariq.expostarterpack",
+      "package": "com.dmhinsaat.mobile",
       "userInterfaceStyle": "automatic"
     },
     "web": {
@@ -38,9 +38,9 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#F7F7F5",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#111111"
           }
         }
       ]
