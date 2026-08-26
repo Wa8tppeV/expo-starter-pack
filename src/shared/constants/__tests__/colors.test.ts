@@ -2,53 +2,53 @@ import { colors, getColor } from "../colors";
 
 describe("Color Constants", () => {
   it("exports primary colors", () => {
-    expect(colors.primary).toBe("#C17F4F");
-    expect(colors["primary-dark"]).toBe("#A86D42");
-    expect(colors["primary-light"]).toBe("#D19968");
+    expect(colors.primary).toBe("#D4AF37");
+    expect(colors["primary-dark"]).toBe("#A88722");
+    expect(colors["primary-light"]).toBe("#E6CD78");
   });
 
   it("exports accent colors", () => {
-    expect(colors.accent).toBe("#9B6B4F");
-    expect(colors["accent-dark"]).toBe("#7D5840");
-    expect(colors["accent-light"]).toBe("#B8836A");
+    expect(colors.accent).toBe("#171717");
+    expect(colors["accent-dark"]).toBe("#0B0B0B");
+    expect(colors["accent-light"]).toBe("#333333");
   });
 
   it("exports light theme colors", () => {
-    expect(colors.background.light).toBe("#FCFAF8");
-    expect(colors["content"].light).toBe("#1A1715");
-    expect(colors.surface.light).toBe("#F5F1ED");
+    expect(colors.background.light).toBe("#F7F7F5");
+    expect(colors["content"].light).toBe("#171717");
+    expect(colors.surface.light).toBe("#EFEFEA");
   });
 
   it("exports dark theme colors", () => {
-    expect(colors.background.dark).toBe("#1A1715");
-    expect(colors["content"].dark).toBe("#F5F1ED");
-    expect(colors.surface.dark).toBe("#2B2823");
+    expect(colors.background.dark).toBe("#111111");
+    expect(colors["content"].dark).toBe("#F5F5F2");
+    expect(colors.surface.dark).toBe("#1B1B1B");
   });
 
   it("exports semantic colors with light/dark variants", () => {
-    expect(colors.success.light).toBe("#2D7A4F");
-    expect(colors.success.dark).toBe("#40A36D");
-    expect(colors.error.light).toBe("#C73E3A");
-    expect(colors.error.dark).toBe("#E05550");
+    expect(colors.success.light).toBe("#16835B");
+    expect(colors.success.dark).toBe("#35B27F");
+    expect(colors.error.light).toBe("#C43B3B");
+    expect(colors.error.dark).toBe("#E46464");
   });
 
   it("getColor returns correct color for fixed colors", () => {
-    expect(getColor("primary", "light")).toBe("#C17F4F");
-    expect(getColor("primary", "dark")).toBe("#C17F4F");
+    expect(getColor("primary", "light")).toBe("#D4AF37");
+    expect(getColor("primary", "dark")).toBe("#D4AF37");
   });
 
   it("getColor returns correct color for theme-aware colors", () => {
-    expect(getColor("background", "light")).toBe("#FCFAF8");
-    expect(getColor("background", "dark")).toBe("#1A1715");
-    expect(getColor("content", "light")).toBe("#1A1715");
-    expect(getColor("content", "dark")).toBe("#F5F1ED");
+    expect(getColor("background", "light")).toBe("#F7F7F5");
+    expect(getColor("background", "dark")).toBe("#111111");
+    expect(getColor("content", "light")).toBe("#171717");
+    expect(getColor("content", "dark")).toBe("#F5F5F2");
   });
 
   it("getColor returns correct semantic colors", () => {
-    expect(getColor("success", "light")).toBe("#2D7A4F");
-    expect(getColor("success", "dark")).toBe("#40A36D");
-    expect(getColor("error", "light")).toBe("#C73E3A");
-    expect(getColor("error", "dark")).toBe("#E05550");
+    expect(getColor("success", "light")).toBe("#16835B");
+    expect(getColor("success", "dark")).toBe("#35B27F");
+    expect(getColor("error", "light")).toBe("#C43B3B");
+    expect(getColor("error", "dark")).toBe("#E46464");
   });
 
   it("all primary colors are valid hex strings", () => {

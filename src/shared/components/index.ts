@@ -1,1 +1,1 @@
-// Export shared RN components here
+export * from "./Screen";

@@ -2,36 +2,30 @@ import React from "react";
 
 import { render, screen } from "@testing-library/react-native";
 
-import Index from "../index";
+import HomeScreen from "../(tabs)/home";
 
-// Mock useTheme hook and React Native modules
-jest.mock("@hooks", () => ({
-  useTheme: () => ({
-    resolvedTheme: "light",
-    toggleTheme: jest.fn(),
-  }),
+jest.mock("@expo/vector-icons", () => ({
+  Ionicons: () => null,
 }));
 
-// Mock React Native to avoid Flow type issues
-jest.mock("react-native", () => {
-  const actualModule = jest.requireActual("react-native");
+jest.mock("expo-router", () => {
   return {
-    ...actualModule,
+    useRouter: () => ({ push: jest.fn() }),
   };
 });
 
-describe("Index Screen", () => {
-  it("renders welcome heading", () => {
-    render(<Index />);
+describe("Home Screen", () => {
+  it("renders the dashboard heading", () => {
+    render(<HomeScreen />);
 
-    const heading = screen.getByText("Expo Starter Pack");
+    const heading = screen.getByText("Kontrol Merkezi");
     expect(heading).toBeTruthy();
   });
 
-  it("renders theme toggle button", () => {
-    render(<Index />);
+  it("renders the project shortcut", () => {
+    render(<HomeScreen />);
 
-    const toggleButton = screen.getByText(/Switch to/i);
-    expect(toggleButton).toBeTruthy();
+    const shortcut = screen.getByText("Yeni Proje Oluştur");
+    expect(shortcut).toBeTruthy();
   });
 });

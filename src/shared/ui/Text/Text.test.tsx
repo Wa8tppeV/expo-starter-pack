@@ -219,7 +219,7 @@ describe("Text Component", () => {
       );
       const element = screen.getByTestId("custom-text");
 
-      expect(element.props.className).toBe("text-red-500");
+      expect(element.props.className).toBe("text-content text-red-500");
     });
   });
 
@@ -337,7 +337,7 @@ describe("Text Component", () => {
       render(<Text testID="no-variant-text">Unstyled</Text>);
       const element = screen.getByTestId("no-variant-text");
 
-      expect(element.props.className).toBe("");
+      expect(element.props.className.trim()).toBe("text-content");
     });
 
     it("should handle empty className gracefully", () => {

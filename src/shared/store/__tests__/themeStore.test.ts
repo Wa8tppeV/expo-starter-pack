@@ -1,75 +1,49 @@
-import { useThemeStore } from "../themeStore";
-
-// Mock MMKV to avoid React Native Flow type issues
-jest.mock("react-native-mmkv", () => ({
-  MMKV: jest.fn().mockImplementation(() => ({
+jest.mock("react-native-mmkv", () => {
+  const storage = {
+    getString: jest.fn(),
     set: jest.fn(),
-    getString: jest.fn(() => null),
-  })),
-}));
+  };
 
-// Mock React Native to avoid Flow type issues
-jest.mock("react-native", () => {
-  const actualModule = jest.requireActual("react-native");
   return {
-    ...actualModule,
+    __storage: storage,
+    createMMKV: () => storage,
   };
 });
+
+import { useThemeStore } from "../themeStore";
+
+const mockStorage = jest.requireMock("react-native-mmkv").__storage as {
+  getString: jest.Mock;
+  set: jest.Mock;
+};
 
 describe("Theme Store", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockStorage.getString.mockReturnValue(undefined);
+    useThemeStore.setState({ savedTheme: null });
   });
 
-  it("initializes with system theme", () => {
-    const state = useThemeStore.getState();
-    expect(state.theme).toBe("system");
-    expect(state.resolvedTheme).toBe("light");
+  it("initializes without a saved preference", () => {
+    expect(useThemeStore.getState().savedTheme).toBeNull();
   });
 
-  it("sets theme to dark", () => {
-    const { setTheme } = useThemeStore.getState();
-    setTheme("dark");
+  it("saves the selected theme", () => {
+    useThemeStore.getState().saveTheme("dark");
 
-    const state = useThemeStore.getState();
-    expect(state.theme).toBe("dark");
+    expect(mockStorage.set).toHaveBeenCalledWith("theme_preference", "dark");
+    expect(useThemeStore.getState().savedTheme).toBe("dark");
   });
 
-  it("sets theme to light", () => {
-    const { setTheme } = useThemeStore.getState();
-    setTheme("light");
+  it("loads a valid saved preference", () => {
+    mockStorage.getString.mockReturnValue("light");
 
-    const state = useThemeStore.getState();
-    expect(state.theme).toBe("light");
+    expect(useThemeStore.getState().loadTheme()).toBe("light");
   });
 
-  it("toggles theme", () => {
-    const { setTheme, toggleTheme } = useThemeStore.getState();
-    setTheme("light");
+  it("ignores an invalid saved preference", () => {
+    mockStorage.getString.mockReturnValue("sepia");
 
-    let state = useThemeStore.getState();
-    expect(state.resolvedTheme).toBe("light");
-
-    toggleTheme();
-    state = useThemeStore.getState();
-    expect(state.resolvedTheme).toBe("dark");
-  });
-
-  it("initializes theme with system preference", () => {
-    const { initializeTheme } = useThemeStore.getState();
-    initializeTheme("light");
-
-    const state = useThemeStore.getState();
-    expect(state.resolvedTheme).toBe("light");
-  });
-
-  it("has toggleTheme method", () => {
-    const { toggleTheme } = useThemeStore.getState();
-    expect(typeof toggleTheme).toBe("function");
-  });
-
-  it("has updateSystemScheme method", () => {
-    const { updateSystemScheme } = useThemeStore.getState();
-    expect(typeof updateSystemScheme).toBe("function");
+    expect(useThemeStore.getState().loadTheme()).toBeNull();
   });
 });
