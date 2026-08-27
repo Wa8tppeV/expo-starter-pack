@@ -1,3 +1,5 @@
+import { useThemeStore } from "../themeStore";
+
 jest.mock("react-native-mmkv", () => {
   const storage = {
     getString: jest.fn(),
@@ -9,8 +11,6 @@ jest.mock("react-native-mmkv", () => {
     createMMKV: () => storage,
   };
 });
-
-import { useThemeStore } from "../themeStore";
 
 const mockStorage = jest.requireMock("react-native-mmkv").__storage as {
   getString: jest.Mock;
