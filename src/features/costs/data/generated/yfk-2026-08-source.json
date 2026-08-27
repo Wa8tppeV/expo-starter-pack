@@ -1,0 +1,11 @@
+{
+  "authority": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - YFK",
+  "checksum": "132be7be7f848a141d4db435ff4e2bc98b310e33cbe9b0d18c28cfbaf098387d",
+  "currency": "TRY",
+  "id": "yfk-insaat-2026-08",
+  "itemKinds": ["labor", "transport", "equipment", "material"],
+  "label": "YFK 2026 Ağustos İnşaat Rayiçleri",
+  "publishedAt": "2026-08-03",
+  "sourceUrl": "https://yfk.csb.gov.tr/2026-yilina-ait-guncellenmis-aylik-rayic-ve-birim-fiyat-listeleri-agustos-ayi-03-agustos-2026-tarihinde-yayinlanmis-olup-01-agustos-2026-tarihinden-itibaren-gecerlidir-114984",
+  "validFrom": "2026-08-01"
+}

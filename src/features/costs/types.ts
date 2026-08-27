@@ -1,3 +1,5 @@
+import { CatalogItemKind } from '../catalog';
+
 export interface EstimateCatalogSnapshot {
   id: string;
   label: string;
@@ -8,8 +10,11 @@ export interface EstimateCatalogSnapshot {
 export interface EstimateLine {
   code: string;
   description: string;
+  itemId: string;
+  kind: CatalogItemKind;
   quantity: number;
-  unit: 'saat';
+  sourceVersionId: string;
+  unit: string;
   unitPriceKurus: number;
 }
 
@@ -29,12 +34,16 @@ export interface EstimateDraft {
 }
 
 export interface EstimateTotals {
+  directSubtotalKurus: number;
+  equipmentSubtotalKurus: number;
   grandTotalKurus: number;
   itemCount: number;
   laborSubtotalKurus: number;
+  materialSubtotalKurus: number;
   overheadKurus: number;
   profitKurus: number;
   subtotalBeforeVatKurus: number;
   totalHours: number;
+  transportSubtotalKurus: number;
   vatKurus: number;
 }

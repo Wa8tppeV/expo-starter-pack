@@ -2,16 +2,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import { LABOR_RATE_SOURCE, LABOR_RATES } from '../data/laborRates';
+import { CatalogItem, tryToKurus, YFK_CATALOG_SOURCE } from '../../catalog';
+import { LABOR_RATES } from '../data/laborRates';
 import { ESTIMATE_PROJECTS, EstimateProjectId } from '../data/projects';
 import { EstimateAdjustments, EstimateDraft, EstimateLine } from '../types';
-import { DEFAULT_ESTIMATE_ADJUSTMENTS, tryToKurus } from '../utils/estimateCalculator';
+import { DEFAULT_ESTIMATE_ADJUSTMENTS } from '../utils/estimateCalculator';
 
 const catalogSnapshot = {
-  id: `yfk-${LABOR_RATE_SOURCE.validFrom}`,
-  label: LABOR_RATE_SOURCE.label,
-  publishedAt: LABOR_RATE_SOURCE.publishedAt,
-  validFrom: LABOR_RATE_SOURCE.validFrom,
+  id: YFK_CATALOG_SOURCE.id,
+  label: YFK_CATALOG_SOURCE.label,
+  publishedAt: YFK_CATALOG_SOURCE.publishedAt,
+  validFrom: YFK_CATALOG_SOURCE.validFrom,
 };
 
 const createDraft = (projectId: EstimateProjectId): EstimateDraft => {
@@ -33,6 +34,7 @@ interface EstimateStore {
   clearActiveDraft: () => void;
   setActiveProject: (projectId: EstimateProjectId) => void;
   setAdjustment: (key: keyof EstimateAdjustments, value: number) => void;
+  setCatalogItemQuantity: (item: CatalogItem, quantity: number) => void;
   setLineQuantity: (code: string, quantity: number) => void;
 }
 
@@ -72,6 +74,36 @@ export const useEstimateStore = create<EstimateStore>()(
             adjustments: { ...draft.adjustments, [key]: Math.min(100, Math.max(0, value)) },
           }))
         ),
+      setCatalogItemQuantity: (item, quantity) =>
+        set(state =>
+          updateActiveDraft(state, draft => {
+            const safeQuantity = Math.max(0, quantity);
+            const itemId = `${item.sourceVersionId}:${item.kind}:${item.code}`;
+            const existingLine = draft.lines.find(line => line.itemId === itemId);
+
+            if (safeQuantity === 0) {
+              return { ...draft, lines: draft.lines.filter(line => line.itemId !== itemId) };
+            }
+
+            const nextLine: EstimateLine = {
+              code: item.code,
+              description: item.name,
+              itemId,
+              kind: item.kind,
+              quantity: safeQuantity,
+              sourceVersionId: item.sourceVersionId,
+              unit: item.unit,
+              unitPriceKurus: item.unitPriceKurus,
+            };
+
+            return {
+              ...draft,
+              lines: existingLine
+                ? draft.lines.map(line => (line.itemId === itemId ? nextLine : line))
+                : [...draft.lines, nextLine],
+            };
+          })
+        ),
       setLineQuantity: (code, quantity) =>
         set(state =>
           updateActiveDraft(state, draft => {
@@ -90,7 +122,10 @@ export const useEstimateStore = create<EstimateStore>()(
               : {
                   code,
                   description: rate!.name,
+                  itemId: `${catalogSnapshot.id}:labor:${code}`,
+                  kind: 'labor',
                   quantity: safeQuantity,
+                  sourceVersionId: catalogSnapshot.id,
                   unit: rate!.unit,
                   unitPriceKurus: tryToKurus(rate!.hourlyRate),
                 };
@@ -105,8 +140,29 @@ export const useEstimateStore = create<EstimateStore>()(
         ),
     }),
     {
+      migrate: persistedState => {
+        const state = persistedState as EstimateStore;
+        const drafts = Object.fromEntries(
+          Object.entries(state.drafts).map(([projectId, draft]) => [
+            projectId,
+            {
+              ...draft,
+              lines: draft.lines.map(line => ({
+                ...line,
+                itemId:
+                  line.itemId ?? `${line.sourceVersionId ?? draft.catalog.id}:labor:${line.code}`,
+                kind: line.kind ?? 'labor',
+                sourceVersionId: line.sourceVersionId ?? draft.catalog.id,
+              })),
+            },
+          ])
+        ) as Record<EstimateProjectId, EstimateDraft>;
+
+        return { ...state, drafts };
+      },
       name: 'dmh-estimate-drafts-v1',
       storage: createJSONStorage(() => AsyncStorage),
+      version: 2,
     }
   )
 );

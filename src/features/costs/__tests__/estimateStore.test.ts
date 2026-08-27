@@ -38,4 +38,28 @@ describe('Estimate store', () => {
     expect(draft.adjustments.profitRate).toBe(100);
     expect(draft.lines).toEqual([]);
   });
+
+  it('adds and snapshots any catalog item kind', () => {
+    const item = {
+      category: 'Malzeme',
+      code: '10.130.1001',
+      kind: 'material' as const,
+      name: 'Örnek malzeme',
+      sourceVersionId: 'yfk-insaat-2026-08',
+      unit: 'm³',
+      unitPriceKurus: 125050,
+    };
+
+    useEstimateStore.getState().setCatalogItemQuantity(item, 3);
+    expect(useEstimateStore.getState().drafts['cal-konut'].lines[0]).toEqual({
+      code: item.code,
+      description: item.name,
+      itemId: 'yfk-insaat-2026-08:material:10.130.1001',
+      kind: 'material',
+      quantity: 3,
+      sourceVersionId: 'yfk-insaat-2026-08',
+      unit: 'm³',
+      unitPriceKurus: 125050,
+    });
+  });
 });

@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-08-27T10:20:34.167797+00:00",
+  "itemCount": 5521,
+  "kindCounts": {
+    "equipment": 260,
+    "labor": 113,
+    "material": 5145,
+    "transport": 3
+  },
+  "pageCount": 143,
+  "placeholderNameCount": 0,
+  "nonPositivePriceCount": 0,
+  "replacementCharacterCount": 0,
+  "uniqueCodeCount": 5521
+}
