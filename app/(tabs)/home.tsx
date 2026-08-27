@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 import { Screen } from '@components';
+import { calculateEstimateTotals, formatKurus, useEstimateStore } from '@features';
 import { Text } from '@ui';
 
 const metrics = [
@@ -14,14 +15,19 @@ const metrics = [
   { label: 'Bekleyen Teklif', value: '4', icon: 'document-text-outline' as const },
 ];
 
-const financeCards = [
-  { label: 'Toplam Sözleşme', value: '₺18.450.000' },
-  { label: 'Tahmini Maliyet', value: '₺14.720.000' },
-  { label: 'Beklenen Kâr', value: '₺3.730.000' },
-];
-
 export default function HomeScreen() {
   const router = useRouter();
+  const drafts = useEstimateStore(state => state.drafts);
+  const savedEstimateKurus = Object.values(drafts).reduce(
+    (total, draft) =>
+      total + calculateEstimateTotals(draft.lines, draft.adjustments).grandTotalKurus,
+    0
+  );
+  const financeCards = [
+    { label: 'Toplam Sözleşme', value: '₺18.450.000' },
+    { label: 'Kayıtlı Keşifler', value: formatKurus(savedEstimateKurus) },
+    { label: 'Beklenen Kâr', value: '₺3.730.000' },
+  ];
 
   return (
     <Screen

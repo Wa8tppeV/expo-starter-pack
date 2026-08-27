@@ -14,7 +14,7 @@ A production-ready React Native Expo template for building modern cross-platform
 - 📝 **Typography System** - Custom fonts with semantic variants
 - 🗂️ **Expo Router 6** - File-based routing (like Next.js)
 - ⚡ **Zustand** - Lightweight state management
-- 💾 **MMKV** - Fast encrypted local storage
+- 💾 **Local storage** - MMKV preferences and AsyncStorage estimate drafts
 - 🧪 **Jest + Testing Library** - Complete testing setup
 - 📐 **TypeScript** - Full type safety
 - 🔍 **ESLint + Prettier** - Code quality and formatting
@@ -65,22 +65,22 @@ Replace the icons in `assets/images/`:
 ### 4. Install Dependencies
 
 ```bash
-bun install
+npm install
 ```
 
 If you skipped the setup script, install dependencies manually:
 
 ```bash
-bun install
+npm install
 ```
 
 ### 5. Start Development
 
 ```bash
-bun start          # Start Expo dev server (interactive platform picker)
-bun ios           # Run on iOS simulator
-bun android       # Run on Android emulator
-bun web           # Run on web
+npm start          # Start Expo dev server (interactive platform picker)
+npm run ios        # Run on iOS simulator
+npm run android    # Run on Android emulator
+npm run web        # Run on web
 ```
 
 ## Project Structure
@@ -106,23 +106,23 @@ expo-starter-pack/
 
 ```bash
 # Start development
-bun start              # Interactive platform picker
-bun ios               # Run on iOS
-bun android           # Run on Android
-bun web               # Run on web
+npm start              # Interactive platform picker
+npm run ios            # Run on iOS
+npm run android        # Run on Android
+npm run web            # Run on web
 
 # Code quality
-bun run lint          # Check with ESLint
-bun run lint:fix      # Fix linting issues
-bun run format        # Format with Prettier
-bun run format:check  # Check formatting
+npm run lint          # Check with ESLint
+npm run lint:fix      # Fix linting issues
+npm run format        # Format with Prettier
+npm run format:check  # Check formatting
 
 # Testing
-bun test              # Run Jest tests
-bun test --watch      # Watch mode
+npm test              # Run Jest tests
+npm test -- --watch   # Watch mode
 
 # Other
-bun run reset-project # Clear caches and rebuild
+npm run reset-project # Clear caches and rebuild
 ```
 
 ## Tech Stack
@@ -138,6 +138,7 @@ bun run reset-project # Clear caches and rebuild
 | **Tailwind CSS** | 3.4     | Utility-first CSS        |
 | **Zustand**      | 5       | State management         |
 | **MMKV**         | 4.1     | Fast local storage       |
+| **AsyncStorage** | 2.2     | Persistent draft storage |
 | **Jest**         | 29      | Testing framework        |
 | **ESLint**       | 9       | Code quality             |
 | **Prettier**     | 3       | Code formatting          |
@@ -145,10 +146,10 @@ bun run reset-project # Clear caches and rebuild
 ## Before You Commit
 
 ```bash
-bun run format    # Format code with Prettier
-bun run lint:fix  # Fix linting issues
-bun test          # Run tests
-bun run lint      # Verify no errors
+npm run format    # Format code with Prettier
+npm run lint:fix  # Fix linting issues
+npm test          # Run tests
+npm run lint      # Verify no errors
 ```
 
 ## Building for Production

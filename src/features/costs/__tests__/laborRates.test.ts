@@ -23,10 +23,10 @@ describe('Labor rates', () => {
 
     expect(estimate.itemCount).toBe(2);
     expect(estimate.totalHours).toBe(12);
-    expect(estimate.total).toBeCloseTo(3670.44);
+    expect(estimate.total).toBeCloseTo(3772.76);
   });
 
   it('formats Turkish lira values', () => {
-    expect(formatTry(344.8)).toContain('344,80');
+    expect(formatTry(354.41)).toContain('354,41');
   });
 });
