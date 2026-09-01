@@ -1,0 +1,92 @@
+[
+  {
+    "authority": "T.C. Ulaştırma ve Altyapı Bakanlığı / Karayolları Genel Müdürlüğü",
+    "checksum": "256b180d669aaa4239154a7f1fcdc5496eb17c90a687c9849070b0abae4963c2",
+    "currency": "TRY",
+    "id": "kgm-2026-yol-kopru-tunel",
+    "institution": "KGM",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "KGM 2026 Yol, Köprü, Tünel, Bitümlü Kaplamalar, Bakım ve Trafik Birim Fiyatları",
+    "pageCount": 44,
+    "publishedAt": "2026-01-20",
+    "recordCount": 1269,
+    "recordType": "unit_price_and_formula",
+    "sourceFile": "kgm-2026-unit-prices.pdf",
+    "sourceUrl": "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Baskanliklar/BaskanliklarTeknikArastirma/BirimFiyatlar.aspx",
+    "validFrom": "2026-01-01"
+  },
+  {
+    "authority": "T.C. Ulaştırma ve Altyapı Bakanlığı / Karayolları Genel Müdürlüğü",
+    "checksum": "2e382cca56319b2e51903c07db8a421f3e5d9568d0ad2aed6343c9b3a57b5746",
+    "currency": "TRY",
+    "id": "kgm-2026-08-rayic",
+    "institution": "KGM",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "KGM 2026 Ağustos Güncellenmiş Rayiç ve Birim Fiyatları",
+    "pageCount": 3,
+    "publishedAt": "2026-08-03",
+    "recordCount": 44,
+    "recordType": "rate_and_unit_price",
+    "sourceFile": "kgm-2026-08-rates.pdf",
+    "sourceUrl": "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Baskanliklar/BaskanliklarTeknikArastirma/BirimFiyatlar.aspx",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "Karayolları Genel Müdürlüğü / Araştırma ve Geliştirme Dairesi Başkanlığı",
+    "checksum": "b16ee56a6d8eab2b382e5f489a3aabd8de7e65a2da3402e42a7354a1cc1f1349",
+    "currency": "TRY",
+    "id": "kgm-2026-arge",
+    "institution": "KGM",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "KGM Ar-Ge 2026 1. Dönem Birim Fiyatları",
+    "pageCount": 81,
+    "publishedAt": "2026-07-04",
+    "recordCount": 889,
+    "recordType": "unit_price",
+    "sourceFile": "kgm-2026-arge-unit-prices.pdf",
+    "sourceUrl": "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Baskanliklar/BaskanliklarTeknikArastirma/BirimFiyatlar.aspx",
+    "validFrom": "2026-07-04"
+  },
+  {
+    "authority": "Karayolları Genel Müdürlüğü / Etüt, Proje ve Çevre Dairesi Başkanlığı",
+    "checksum": "a5e3b680e0f86c10a11fa7788db92891e4eb811adb9a504cc4c1dd09b5c00788",
+    "currency": "TRY",
+    "id": "kgm-2026-etut-proje-cevre",
+    "institution": "KGM",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "KGM Etüt, Proje ve Çevre 2026/1 Birim Fiyatları",
+    "pageCount": 102,
+    "publishedAt": "2026-02-26",
+    "recordCount": 77,
+    "recordType": "unit_price_and_variable_composite",
+    "sourceFile": "kgm-2026-etut-proje-unit-prices.pdf",
+    "sourceUrl": "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Baskanliklar/BaskanliklarTeknikArastirma/BirimFiyatlar.aspx",
+    "validFrom": "2026-01-01"
+  },
+  {
+    "authority": "Karayolları Genel Müdürlüğü / Sanat Yapıları Dairesi Başkanlığı",
+    "checksum": "e9d3817766443c1a3e7cacbc93899dd2d7dbcd0ba7c4006deecd12057dc74fa6",
+    "currency": "TRY",
+    "id": "kgm-2026-tarihi-kopruler",
+    "institution": "KGM",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "KGM Tarihi Köprüler 2026 Birim Fiyatları",
+    "pageCount": 7,
+    "publishedAt": "2026-03-26",
+    "recordCount": 121,
+    "recordType": "unit_price_and_formula",
+    "sourceFile": "kgm-2026-historic-bridges.pdf",
+    "sourceUrl": "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Baskanliklar/BaskanliklarTeknikArastirma/BirimFiyatlar.aspx",
+    "validFrom": "2026-01-01"
+  }
+]

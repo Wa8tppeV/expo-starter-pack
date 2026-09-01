@@ -30,3 +30,21 @@ python tools/yfk-importer/import_other_institutions.py
 
 Kodlu kayıtlar doğrudan kataloğa alınır. İLBANK'ın kodsuz harita ve imar tarife
 matrisleri sahte poz numarası üretilmeden doğrulama raporunda ayrı sayılır.
+
+KGM'nin yol, köprü, tünel, Ar-Ge, etüt-proje, tarihi köprü ve Ağustos rayiç
+listelerini üretmek için:
+
+```powershell
+python tools/yfk-importer/import_kgm.py
+```
+
+DSİ 2026 birim fiyat, rayiç ve özel fiyat durumlarını üretmek için:
+
+```powershell
+python tools/yfk-importer/import_dsi_2026.py
+```
+
+Her iki aktarımda formül, tarife, fatura veya çoklu bileşene bağlı kayıtlar
+katalogda görünür; kesin resmî sabit fiyatları bulunmadığı için keşfe eklenemez.
+PDF içindeki açıklama referansları poz kodu, formül katsayıları da fiyat olarak
+yorumlanmaz.

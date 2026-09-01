@@ -1,0 +1,19 @@
+[
+  {
+    "authority": "T.C. Tarım ve Orman Bakanlığı / Devlet Su İşleri Genel Müdürlüğü",
+    "checksum": "cdee74afaa12adca65ec027ceabab25b104174c236e4d8d18e90c2c646c75049",
+    "currency": "TRY",
+    "id": "dsi-2026-unit-prices",
+    "institution": "DSİ",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "DSİ 2026 Yılı Birim Fiyatları",
+    "pageCount": 79,
+    "publishedAt": "2026-01-28",
+    "recordCount": 1974,
+    "recordType": "unit_price_and_rate",
+    "sourceUrl": "https://dsi.gov.tr/Sayfa/Detay/738",
+    "validFrom": "2026-01-01"
+  }
+]

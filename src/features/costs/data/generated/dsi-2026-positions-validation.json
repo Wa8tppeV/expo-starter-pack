@@ -1,0 +1,54 @@
+{
+  "blankNameCount": 0,
+  "blankUnitCount": 0,
+  "categoryCounts": {
+    "Rayiçler": 104,
+    "DSİ Birim Fiyatları": 11,
+    "Jeoteknik Hizmetler ve Yeraltısuları": 146,
+    "Sulama ve Taşkın Kontrol İnşaatı": 238,
+    "Barajlar ve HES İnşaatı": 265,
+    "Harita İşleri": 83,
+    "Kamulaştırma İşleri": 24,
+    "Arazi Toplulaştırması": 13,
+    "Laboratuvar Hizmetleri": 967,
+    "İşletme Bakım Faaliyetleri": 123
+  },
+  "codePatternInvalidCount": 0,
+  "codeReferenceTokenCount": 2,
+  "conflictingDuplicateCodes": [],
+  "controlCharacterCount": 0,
+  "duplicateCodeCount": 2,
+  "duplicateCodes": [
+    "51.550.1015",
+    "51.550.1020"
+  ],
+  "duplicateOccurrenceCount": 2,
+  "excludedUncertainCount": 0,
+  "excludedUncertainRecords": [],
+  "formulaPricedCount": 0,
+  "fullDescriptionCount": 292,
+  "itemCount": 1974,
+  "genericUnitCount": 8,
+  "kindCounts": {
+    "construction": 1974
+  },
+  "mojibakeMarkerCount": 0,
+  "multipleComponentFlattenedCount": 0,
+  "pageCount": 79,
+  "priceStatusCounts": {
+    "fixed": 1944,
+    "formula": 10,
+    "unpriced": 6,
+    "tariff": 4,
+    "invoice": 9,
+    "multiple_components": 1
+  },
+  "pricedItemCount": 1944,
+  "rawAnchorCount": 1976,
+  "replacementCharacterCount": 0,
+  "slashSuffixCodeCount": 2,
+  "sourceChecksum": "cdee74afaa12adca65ec027ceabab25b104174c236e4d8d18e90c2c646c75049",
+  "syntheticCodeCount": 0,
+  "uniqueCodeCount": 1974,
+  "zeroPriceItemCount": 31
+}

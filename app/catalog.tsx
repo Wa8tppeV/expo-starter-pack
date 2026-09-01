@@ -21,7 +21,7 @@ import { Text } from '@ui';
 import { OFFICIAL_CATALOG_ITEMS } from '../src/features/catalog/data/officialCatalog';
 
 type KindFilter = CatalogItemKind | 'all';
-type InstitutionFilter = 'all' | 'YFK' | 'İLBANK' | 'KVGM/VGM';
+type InstitutionFilter = 'all' | 'YFK' | 'İLBANK' | 'KVGM/VGM' | 'KGM' | 'DSİ';
 type RecordTypeFilter = 'all' | 'rate' | 'unit_price';
 
 const FILTERS: { kind: KindFilter; label: string }[] = [
@@ -56,6 +56,8 @@ const INSTITUTION_FILTERS: { label: string; value: InstitutionFilter }[] = [
   { label: 'YFK', value: 'YFK' },
   { label: 'İLBANK', value: 'İLBANK' },
   { label: 'Restorasyon', value: 'KVGM/VGM' },
+  { label: 'KGM', value: 'KGM' },
+  { label: 'DSİ', value: 'DSİ' },
 ];
 
 function itemId(item: CatalogItem) {
@@ -126,7 +128,8 @@ export default function CatalogScreen() {
               {item.category}
             </Text>
             <Text variant="small" className="mt-1 text-content-tertiary">
-              {(item.metadata?.recordType ?? 'rate') === 'unit_price'
+              {String(item.metadata?.institution ?? 'YFK')} ·{' '}
+              {String(item.metadata?.recordType ?? 'rate').includes('unit_price')
                 ? 'Resmî Birim Fiyat'
                 : 'Resmî Rayiç'}
             </Text>
@@ -216,7 +219,7 @@ export default function CatalogScreen() {
               <TextInput
                 className="ml-3 flex-1 font-manrope text-body-sm text-content"
                 onChangeText={setSearch}
-                placeholder="Örn. beton, 15., 25., 35...."
+                placeholder="Örn. beton, 15., KGM, DSİ..."
                 placeholderTextColor="#8C8C86"
                 returnKeyType="search"
                 value={search}
