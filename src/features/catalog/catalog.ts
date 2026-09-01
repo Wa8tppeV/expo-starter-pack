@@ -61,8 +61,8 @@ export function createCatalog<TItem extends CatalogItem>(
     requireNonEmpty(item.category, 'item.category');
     requireNonEmpty(item.unit, 'item.unit');
 
-    if (!Number.isSafeInteger(item.unitPriceKurus) || item.unitPriceKurus < 0) {
-      throw new Error(`Item ${item.code} must have a non-negative, safe integer price`);
+    if (!Number.isSafeInteger(item.unitPriceKurus)) {
+      throw new Error(`Item ${item.code} must have a safe integer price`);
     }
 
     const source = sourcesById.get(item.sourceVersionId);

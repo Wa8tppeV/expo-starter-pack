@@ -35,12 +35,15 @@ describe('Estimate calculator', () => {
     );
 
     expect(totals).toEqual({
+      constructionSubtotalKurus: 0,
       directSubtotalKurus: 377276,
+      electricalSubtotalKurus: 0,
       equipmentSubtotalKurus: 0,
       grandTotalKurus: 572706,
       itemCount: 2,
       laborSubtotalKurus: 377276,
       materialSubtotalKurus: 0,
+      mechanicalSubtotalKurus: 0,
       overheadKurus: 37728,
       profitKurus: 62251,
       subtotalBeforeVatKurus: 477255,
@@ -99,13 +102,40 @@ describe('Estimate calculator', () => {
           kind: 'transport',
           unitPriceKurus: 30000,
         },
+        {
+          ...shared,
+          code: 'C1',
+          description: 'İnşaat pozu',
+          itemId: 'construction:C1',
+          kind: 'construction',
+          unitPriceKurus: 40000,
+        },
+        {
+          ...shared,
+          code: 'H1',
+          description: 'Mekanik poz',
+          itemId: 'mechanical:H1',
+          kind: 'mechanical',
+          unitPriceKurus: 50000,
+        },
+        {
+          ...shared,
+          code: 'X1',
+          description: 'Elektrik poz',
+          itemId: 'electrical:X1',
+          kind: 'electrical',
+          unitPriceKurus: 60000,
+        },
       ],
       { overheadRate: 0, profitRate: 0, vatRate: 0 }
     );
 
-    expect(totals.directSubtotalKurus).toBe(120000);
+    expect(totals.directSubtotalKurus).toBe(420000);
     expect(totals.materialSubtotalKurus).toBe(20000);
     expect(totals.equipmentSubtotalKurus).toBe(40000);
     expect(totals.transportSubtotalKurus).toBe(60000);
+    expect(totals.constructionSubtotalKurus).toBe(80000);
+    expect(totals.mechanicalSubtotalKurus).toBe(100000);
+    expect(totals.electricalSubtotalKurus).toBe(120000);
   });
 });

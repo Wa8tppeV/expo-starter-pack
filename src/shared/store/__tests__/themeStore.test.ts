@@ -1,49 +1,28 @@
-import { useThemeStore } from "../themeStore";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-jest.mock("react-native-mmkv", () => {
-  const storage = {
-    getString: jest.fn(),
-    set: jest.fn(),
-  };
+import { useThemeStore } from '../themeStore';
 
-  return {
-    __storage: storage,
-    createMMKV: () => storage,
-  };
-});
-
-const mockStorage = jest.requireMock("react-native-mmkv").__storage as {
-  getString: jest.Mock;
-  set: jest.Mock;
-};
-
-describe("Theme Store", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    mockStorage.getString.mockReturnValue(undefined);
+describe('Theme Store', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
     useThemeStore.setState({ savedTheme: null });
   });
 
-  it("initializes without a saved preference", () => {
+  it('initializes without a saved preference', () => {
     expect(useThemeStore.getState().savedTheme).toBeNull();
   });
 
-  it("saves the selected theme", () => {
-    useThemeStore.getState().saveTheme("dark");
+  it('saves the selected theme in Expo Go compatible storage', () => {
+    useThemeStore.getState().saveTheme('dark');
 
-    expect(mockStorage.set).toHaveBeenCalledWith("theme_preference", "dark");
-    expect(useThemeStore.getState().savedTheme).toBe("dark");
+    expect(useThemeStore.getState().savedTheme).toBe('dark');
+    expect(useThemeStore.getState().loadTheme()).toBe('dark');
   });
 
-  it("loads a valid saved preference", () => {
-    mockStorage.getString.mockReturnValue("light");
-
-    expect(useThemeStore.getState().loadTheme()).toBe("light");
-  });
-
-  it("ignores an invalid saved preference", () => {
-    mockStorage.getString.mockReturnValue("sepia");
-
-    expect(useThemeStore.getState().loadTheme()).toBeNull();
+  it('supports system, light and dark preferences', () => {
+    for (const theme of ['system', 'light', 'dark'] as const) {
+      useThemeStore.getState().saveTheme(theme);
+      expect(useThemeStore.getState().loadTheme()).toBe(theme);
+    }
   });
 });

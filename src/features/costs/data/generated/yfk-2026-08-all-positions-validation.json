@@ -1,0 +1,57 @@
+{
+  "itemCount": 24772,
+  "kindCounts": {
+    "construction": 1878,
+    "electrical": 11613,
+    "mechanical": 11281
+  },
+  "placeholderNameCount": 0,
+  "replacementCharacterCount": 0,
+  "sources": [
+    {
+      "expectedItemCount": 1878,
+      "id": "yfk-insaat-birim-fiyat-2026-08",
+      "itemCount": 1878,
+      "pageCount": 66,
+      "placeholderNameCount": 0,
+      "unpricedItemCount": 2,
+      "uniqueCodeCount": 1878
+    },
+    {
+      "expectedItemCount": 5601,
+      "id": "yfk-mekanik-rayic-2026-08",
+      "itemCount": 5601,
+      "pageCount": 190,
+      "placeholderNameCount": 0,
+      "unpricedItemCount": 0,
+      "uniqueCodeCount": 5601
+    },
+    {
+      "expectedItemCount": 5680,
+      "id": "yfk-mekanik-birim-fiyat-2026-08",
+      "itemCount": 5680,
+      "pageCount": 132,
+      "placeholderNameCount": 0,
+      "unpricedItemCount": 0,
+      "uniqueCodeCount": 5680
+    },
+    {
+      "expectedItemCount": 5702,
+      "id": "yfk-elektrik-rayic-2026-08",
+      "itemCount": 5702,
+      "pageCount": 191,
+      "placeholderNameCount": 0,
+      "unpricedItemCount": 0,
+      "uniqueCodeCount": 5702
+    },
+    {
+      "expectedItemCount": 5911,
+      "id": "yfk-elektrik-birim-fiyat-2026-08",
+      "itemCount": 5911,
+      "pageCount": 131,
+      "placeholderNameCount": 0,
+      "unpricedItemCount": 0,
+      "uniqueCodeCount": 5911
+    }
+  ]
+}

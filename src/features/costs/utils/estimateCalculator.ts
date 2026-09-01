@@ -18,8 +18,17 @@ export function calculateEstimateTotals(
   const materialSubtotalKurus = subtotalForKind('material');
   const equipmentSubtotalKurus = subtotalForKind('equipment');
   const transportSubtotalKurus = subtotalForKind('transport');
+  const constructionSubtotalKurus = subtotalForKind('construction');
+  const mechanicalSubtotalKurus = subtotalForKind('mechanical');
+  const electricalSubtotalKurus = subtotalForKind('electrical');
   const directSubtotalKurus =
-    laborSubtotalKurus + materialSubtotalKurus + equipmentSubtotalKurus + transportSubtotalKurus;
+    laborSubtotalKurus +
+    materialSubtotalKurus +
+    equipmentSubtotalKurus +
+    transportSubtotalKurus +
+    constructionSubtotalKurus +
+    mechanicalSubtotalKurus +
+    electricalSubtotalKurus;
   const overheadKurus = Math.round(directSubtotalKurus * (adjustments.overheadRate / 100));
   const profitBaseKurus = directSubtotalKurus + overheadKurus;
   const profitKurus = Math.round(profitBaseKurus * (adjustments.profitRate / 100));
@@ -27,12 +36,15 @@ export function calculateEstimateTotals(
   const vatKurus = Math.round(subtotalBeforeVatKurus * (adjustments.vatRate / 100));
 
   return {
+    constructionSubtotalKurus,
     directSubtotalKurus,
+    electricalSubtotalKurus,
     equipmentSubtotalKurus,
     grandTotalKurus: subtotalBeforeVatKurus + vatKurus,
     itemCount: lines.filter(line => line.quantity > 0).length,
     laborSubtotalKurus,
     materialSubtotalKurus,
+    mechanicalSubtotalKurus,
     overheadKurus,
     profitKurus,
     subtotalBeforeVatKurus,

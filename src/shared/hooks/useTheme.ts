@@ -10,13 +10,12 @@ export function useTheme() {
   const { colorScheme, setColorScheme } = useColorScheme();
   const { savedTheme, saveTheme } = useThemeStore();
 
-  // Restore saved theme preference on mount
+  // Restore after AsyncStorage hydration and whenever the saved preference changes.
   useEffect(() => {
     if (savedTheme) {
       setColorScheme(savedTheme);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [savedTheme, setColorScheme]);
 
   // Set theme and persist to storage
   const setTheme = (mode: ThemeMode) => {

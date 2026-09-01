@@ -1,4 +1,12 @@
-export const CATALOG_ITEM_KINDS = ['labor', 'material', 'equipment', 'transport'] as const;
+export const CATALOG_ITEM_KINDS = [
+  'labor',
+  'material',
+  'equipment',
+  'transport',
+  'construction',
+  'mechanical',
+  'electrical',
+] as const;
 
 export type CatalogItemKind = (typeof CATALOG_ITEM_KINDS)[number];
 

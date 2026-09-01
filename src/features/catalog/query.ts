@@ -3,6 +3,13 @@ import { CatalogFilters, CatalogItem, CatalogPage, CatalogQuery, CatalogSortFiel
 export const DEFAULT_CATALOG_PAGE_SIZE = 25;
 export const MAX_CATALOG_PAGE_SIZE = 250;
 
+const searchableTextCache = new WeakMap<CatalogItem, string>();
+const matchedItemsCache = new WeakMap<
+  readonly CatalogItem[],
+  Map<string, readonly CatalogItem[]>
+>();
+const MAX_QUERY_CACHE_ENTRIES = 12;
+
 function normalizeText(value: string) {
   return value
     .trim()
@@ -46,9 +53,13 @@ function matchesSearch(item: CatalogItem, search: string | undefined) {
   }
 
   const terms = normalizeText(search).split(/\s+/).filter(Boolean);
-  const searchableText = normalizeText(
-    [item.code, item.name, item.category, item.unit, ...(item.tags ?? [])].join(' ')
-  );
+  let searchableText = searchableTextCache.get(item);
+  if (!searchableText) {
+    searchableText = normalizeText(
+      [item.code, item.name, item.category, item.unit, ...(item.tags ?? [])].join(' ')
+    );
+    searchableTextCache.set(item, searchableText);
+  }
   return terms.every(term => searchableText.includes(term));
 }
 
@@ -108,12 +119,31 @@ export function queryCatalog<TItem extends CatalogItem>(
 
   const sortBy = query.sortBy ?? 'code';
   const sortDirection = query.sortDirection ?? 'asc';
-  const matchedItems = items
-    .filter(item => matchesFilters(item, query.filters) && matchesSearch(item, query.search))
-    .sort((left, right) => {
-      const primary = compareItems(left, right, sortBy, sortDirection);
-      return primary || compareItems(left, right, 'code', 'asc');
-    });
+  const cacheKey = JSON.stringify({
+    filters: query.filters ?? null,
+    search: normalizeText(query.search ?? ''),
+    sortBy,
+    sortDirection,
+  });
+  let itemCache = matchedItemsCache.get(items);
+  if (!itemCache) {
+    itemCache = new Map();
+    matchedItemsCache.set(items, itemCache);
+  }
+  let matchedItems = itemCache.get(cacheKey) as readonly TItem[] | undefined;
+  if (!matchedItems) {
+    matchedItems = items
+      .filter(item => matchesFilters(item, query.filters) && matchesSearch(item, query.search))
+      .sort((left, right) => {
+        const primary = compareItems(left, right, sortBy, sortDirection);
+        return primary || compareItems(left, right, 'code', 'asc');
+      });
+    if (itemCache.size >= MAX_QUERY_CACHE_ENTRIES) {
+      const oldestKey = itemCache.keys().next().value;
+      if (oldestKey) itemCache.delete(oldestKey);
+    }
+    itemCache.set(cacheKey, matchedItems);
+  }
 
   const totalItems = matchedItems.length;
   const totalPages = Math.ceil(totalItems / pageSize);

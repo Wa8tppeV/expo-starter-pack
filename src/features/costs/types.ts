@@ -34,12 +34,15 @@ export interface EstimateDraft {
 }
 
 export interface EstimateTotals {
+  constructionSubtotalKurus: number;
   directSubtotalKurus: number;
+  electricalSubtotalKurus: number;
   equipmentSubtotalKurus: number;
   grandTotalKurus: number;
   itemCount: number;
   laborSubtotalKurus: number;
   materialSubtotalKurus: number;
+  mechanicalSubtotalKurus: number;
   overheadKurus: number;
   profitKurus: number;
   subtotalBeforeVatKurus: number;

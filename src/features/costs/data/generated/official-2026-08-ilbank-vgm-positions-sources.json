@@ -1,0 +1,128 @@
+[
+  {
+    "authority": "İller Bankası A.Ş.",
+    "checksum": "4a0f6229897b05bd80476b2fc10bcad9c25f0269266ffa5abeb20afd66052cb7",
+    "currency": "TRY",
+    "excludedTariffGridCount": 0,
+    "id": "ilbank-2026-08-etut-laboratuvar",
+    "institution": "İLBANK",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "İLBANK 2026 Ağustos Etüt ve Laboratuvar Birim Fiyatları",
+    "pageCount": 3,
+    "publishedAt": "2026-08-04",
+    "recordCount": 103,
+    "recordType": "unit_price",
+    "sourceUrl": "https://www.ilbank.gov.tr/storage/uploads/reports/1-2026-yili-agustos-ayi-etut-isleri-ve-laboratuvar-deneyleri-birim-fiyatlari-listesi.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "İller Bankası A.Ş.",
+    "checksum": "b1deffe61cff990c20cafa7459a39a78cfc61d995b9bff9e63c6470dc705b2ef",
+    "currency": "TRY",
+    "excludedTariffGridCount": 0,
+    "id": "ilbank-2026-08-sondaj-jeotermal",
+    "institution": "İLBANK",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "İLBANK 2026 Ağustos Sondaj ve Jeotermal Kuyu Birim Fiyatları",
+    "pageCount": 5,
+    "publishedAt": "2026-08-04",
+    "recordCount": 139,
+    "recordType": "unit_price",
+    "sourceUrl": "https://www.ilbank.gov.tr/storage/uploads/reports/2-2026-yili-agustos-ayi-sondaj-isleri-ile-jeotermal-kuyu-test-ve-olcum-isleri-birim-fiyatlari-listesi.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "İller Bankası A.Ş.",
+    "checksum": "cf71e54305a221d10be5bb4f387190b3373dc2dd105f9caf8933ec5f082813de",
+    "currency": "TRY",
+    "excludedTariffGridCount": 374,
+    "id": "ilbank-2026-08-sayisal-harita",
+    "institution": "İLBANK",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "İLBANK 2026 Ağustos Sayısal Halihazır Harita Birim Fiyatları",
+    "pageCount": 21,
+    "publishedAt": "2026-08-04",
+    "recordCount": 372,
+    "recordType": "unit_price",
+    "sourceUrl": "https://www.ilbank.gov.tr/storage/uploads/reports/3-2026-yili-agustos-ayi-sayisal-halihazir-harita-alimi-isleri-birim-fiyatlari-listesi.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "İller Bankası A.Ş.",
+    "checksum": "7037594baadaba5c0ced53fad958c1e5d675fa6457bacbc29968c886ed9e5866",
+    "currency": "TRY",
+    "excludedTariffGridCount": 100,
+    "id": "ilbank-2026-08-imar-plani",
+    "institution": "İLBANK",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "İLBANK 2026 Ağustos İmar Planı Yapım İşleri Tarifeleri",
+    "pageCount": 1,
+    "publishedAt": "2026-08-04",
+    "recordCount": 0,
+    "recordType": "uncoded_tariff_grid",
+    "sourceUrl": "https://www.ilbank.gov.tr/storage/uploads/reports/4-2026-yili-agustos-ayi-imar-plani-yapim-isleri-birim-fiyatlari-listesi.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "İller Bankası A.Ş.",
+    "checksum": "2f9c256dc43e0319955916fa005273e4f833da940b066b552641a3af2ce0b211",
+    "currency": "TRY",
+    "excludedTariffGridCount": 0,
+    "id": "ilbank-2026-08-altyapi",
+    "institution": "İLBANK",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "İLBANK 2026 Ağustos Altyapı Tesisleri Birim Fiyatları",
+    "pageCount": 98,
+    "publishedAt": "2026-08-04",
+    "recordCount": 2962,
+    "recordType": "unit_price",
+    "sourceUrl": "https://www.ilbank.gov.tr/storage/uploads/reports/5-2026-yili-agustos-ayi-altyapi-tesisleri-birim-fiyatlari-listesi.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "İller Bankası A.Ş.",
+    "checksum": "62d9591692f5fff60d0365491ed0967b252900b855ba93a9d9901b48e4ad737d",
+    "currency": "TRY",
+    "excludedTariffGridCount": 0,
+    "id": "ilbank-2026-08-rayic-alt-analiz",
+    "institution": "İLBANK",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "İLBANK 2026 Ağustos Rayiçler ve Alt Analizler",
+    "pageCount": 59,
+    "publishedAt": "2026-08-04",
+    "recordCount": 2575,
+    "recordType": "rate_and_subanalysis",
+    "sourceUrl": "https://www.ilbank.gov.tr/storage/uploads/reports/6-2026-yili-agustos-ayi-rayicler-ve-alt-analizler-listesi.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "T.C. Kültür ve Turizm Bakanlığı / Vakıflar Genel Müdürlüğü",
+    "checksum": "e159b852e738697a6983165e684343a17b3ddd772e838c8d2d3c0e8555dbc1f1",
+    "currency": "TRY",
+    "excludedTariffGridCount": 0,
+    "id": "kvgm-vgm-2026-08-eski-eser",
+    "institution": "KVGM/VGM",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "Kültür ve Turizm Bakanlığı / VGM 2026 Ağustos Birim Fiyat Eki",
+    "pageCount": 148,
+    "publishedAt": "2026-08-04",
+    "recordCount": 3911,
+    "recordType": "unit_price_and_rate",
+    "sourceUrl": "https://cdn.vgm.gov.tr/duyuru/duyuru_7703_040826/agustos-2026-guncellenmis-birim-fiyatlar.pdf",
+    "validFrom": "2026-08-01"
+  }
+]

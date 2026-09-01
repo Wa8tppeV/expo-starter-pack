@@ -14,15 +14,21 @@ import {
   getActiveDraft,
   queryCatalog,
   useEstimateStore,
-  YFK_CATALOG_ITEMS,
   YFK_CATALOG_SOURCE,
 } from '@features';
 import { Text } from '@ui';
 
+import { OFFICIAL_CATALOG_ITEMS } from '../src/features/catalog/data/officialCatalog';
+
 type KindFilter = CatalogItemKind | 'all';
+type InstitutionFilter = 'all' | 'YFK' | 'İLBANK' | 'KVGM/VGM';
+type RecordTypeFilter = 'all' | 'rate' | 'unit_price';
 
 const FILTERS: { kind: KindFilter; label: string }[] = [
   { kind: 'all', label: 'Tümü' },
+  { kind: 'construction', label: 'İnşaat Pozları' },
+  { kind: 'mechanical', label: 'Mekanik' },
+  { kind: 'electrical', label: 'Elektrik' },
   { kind: 'labor', label: 'İşçilik' },
   { kind: 'material', label: 'Malzeme' },
   { kind: 'equipment', label: 'Makine' },
@@ -30,13 +36,27 @@ const FILTERS: { kind: KindFilter; label: string }[] = [
 ];
 
 const KIND_LABELS: Record<CatalogItemKind, string> = {
+  construction: 'İnşaat Pozu',
+  electrical: 'Elektrik',
   equipment: 'Makine',
   labor: 'İşçilik',
   material: 'Malzeme',
+  mechanical: 'Mekanik',
   transport: 'Nakliye',
 };
 
 const PAGE_SIZE = 100;
+const RECORD_TYPE_FILTERS: { label: string; value: RecordTypeFilter }[] = [
+  { label: 'Tüm Fiyatlar', value: 'all' },
+  { label: 'Rayiçler', value: 'rate' },
+  { label: 'Birim Fiyatlar', value: 'unit_price' },
+];
+const INSTITUTION_FILTERS: { label: string; value: InstitutionFilter }[] = [
+  { label: 'Tüm Kurumlar', value: 'all' },
+  { label: 'YFK', value: 'YFK' },
+  { label: 'İLBANK', value: 'İLBANK' },
+  { label: 'Restorasyon', value: 'KVGM/VGM' },
+];
 
 function itemId(item: CatalogItem) {
   return `${item.sourceVersionId}:${item.kind}:${item.code}`;
@@ -44,23 +64,41 @@ function itemId(item: CatalogItem) {
 
 export default function CatalogScreen() {
   const [filter, setFilter] = useState<KindFilter>('all');
+  const [institution, setInstitution] = useState<InstitutionFilter>('all');
   const [page, setPage] = useState(1);
+  const [recordType, setRecordType] = useState<RecordTypeFilter>('all');
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const activeDraft = useEstimateStore(getActiveDraft);
   const setCatalogItemQuantity = useEstimateStore(state => state.setCatalogItemQuantity);
 
-  useEffect(() => setPage(1), [deferredSearch, filter]);
+  useEffect(() => setPage(1), [deferredSearch, filter, institution, recordType]);
+
+  const scopedItems = useMemo(
+    () =>
+      OFFICIAL_CATALOG_ITEMS.filter(item => {
+        const itemInstitution = String(item.metadata?.institution ?? 'YFK');
+        const itemRecordType = String(item.metadata?.recordType ?? 'rate');
+        const matchesInstitution = institution === 'all' || itemInstitution === institution;
+        const matchesRecordType =
+          recordType === 'all' ||
+          itemRecordType === recordType ||
+          (recordType === 'rate' && itemRecordType.includes('rate')) ||
+          (recordType === 'unit_price' && itemRecordType.includes('unit_price'));
+        return matchesInstitution && matchesRecordType;
+      }),
+    [institution, recordType]
+  );
 
   const result = useMemo(
     () =>
-      queryCatalog(YFK_CATALOG_ITEMS, {
+      queryCatalog(scopedItems, {
         filters: filter === 'all' ? undefined : { kinds: [filter] },
         page,
         pageSize: PAGE_SIZE,
         search: deferredSearch,
       }),
-    [deferredSearch, filter, page]
+    [deferredSearch, filter, page, scopedItems]
   );
   const quantities = useMemo(
     () => new Map(activeDraft.lines.map(line => [line.itemId, line.quantity])),
@@ -69,6 +107,10 @@ export default function CatalogScreen() {
 
   const renderItem = ({ item }: { item: CatalogItem }) => {
     const quantity = quantities.get(itemId(item)) ?? 0;
+    const basePriceKurus = Number(item.metadata?.baseUnitPriceKurus ?? 0);
+    const installationPriceKurus = Number(item.metadata?.installationPriceKurus ?? 0);
+    const hasOfficialPrice = item.metadata?.priced === true || item.unitPriceKurus !== 0;
+    const isSelectable = item.unitPriceKurus > 0;
 
     return (
       <View className="mx-4 mb-3 rounded-3xl border border-border bg-surface-elevated p-4">
@@ -83,9 +125,21 @@ export default function CatalogScreen() {
             <Text variant="small" className="mt-1 text-content-tertiary">
               {item.category}
             </Text>
+            <Text variant="small" className="mt-1 text-content-tertiary">
+              {(item.metadata?.recordType ?? 'rate') === 'unit_price'
+                ? 'Resmî Birim Fiyat'
+                : 'Resmî Rayiç'}
+            </Text>
+            {installationPriceKurus > 0 ? (
+              <Text variant="small" className="mt-1 text-content-tertiary">
+                Birim {formatKurus(basePriceKurus)} + montaj {formatKurus(installationPriceKurus)}
+              </Text>
+            ) : null}
           </View>
           <View className="items-end">
-            <Text variant="body-medium">{formatKurus(item.unitPriceKurus)}</Text>
+            <Text variant="body-medium">
+              {hasOfficialPrice ? formatKurus(item.unitPriceKurus) : 'Formüllü poz'}
+            </Text>
             <Text variant="small" className="text-content-tertiary">
               / {item.unit}
             </Text>
@@ -97,7 +151,9 @@ export default function CatalogScreen() {
               Keşif miktarı
             </Text>
             <Text variant="caption" className="mt-1 font-manrope-semibold">
-              {formatKurus(Math.round(item.unitPriceKurus * quantity))}
+              {hasOfficialPrice
+                ? formatKurus(Math.round(item.unitPriceKurus * quantity))
+                : 'Fiyat yok'}
             </Text>
           </View>
           <View className="flex-row items-center rounded-2xl bg-surface p-1">
@@ -114,7 +170,10 @@ export default function CatalogScreen() {
             </Text>
             <Pressable
               accessibilityLabel={`${item.name} miktar artır`}
-              className="h-9 w-9 items-center justify-center rounded-xl bg-primary"
+              className={`h-9 w-9 items-center justify-center rounded-xl ${
+                isSelectable ? 'bg-primary' : 'bg-border'
+              }`}
+              disabled={!isSelectable}
               onPress={() => setCatalogItemQuantity(item, quantity + 1)}
             >
               <Ionicons name="add" size={18} color="#171717" />
@@ -134,7 +193,6 @@ export default function CatalogScreen() {
         keyExtractor={item => itemId(item)}
         maxToRenderPerBatch={12}
         renderItem={renderItem}
-        removeClippedSubviews
         showsVerticalScrollIndicator={false}
         windowSize={7}
         ListHeaderComponent={
@@ -149,7 +207,7 @@ export default function CatalogScreen() {
                   <Ionicons name="close" size={23} color="#171717" />
                 </Pressable>
               }
-              eyebrow="Resmî 2026 Rayiçleri"
+              eyebrow="Resmî 2026 Tüm Pozlar"
               subtitle="Poz numarası veya adla ara, miktarı belirle ve keşfine ekle."
               title="Kalem Kataloğu"
             />
@@ -158,7 +216,7 @@ export default function CatalogScreen() {
               <TextInput
                 className="ml-3 flex-1 font-manrope text-body-sm text-content"
                 onChangeText={setSearch}
-                placeholder="Örn. beton, sıvacı, 10.130..."
+                placeholder="Örn. beton, 15., 25., 35...."
                 placeholderTextColor="#8C8C86"
                 returnKeyType="search"
                 value={search}
@@ -189,6 +247,62 @@ export default function CatalogScreen() {
                       variant="caption"
                       className={
                         selected ? 'font-manrope-semibold text-accent' : 'text-content-secondary'
+                      }
+                    >
+                      {item.label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+            <ScrollView
+              className="-mx-4"
+              contentContainerClassName="gap-2 px-4"
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
+              {INSTITUTION_FILTERS.map(item => {
+                const selected = institution === item.value;
+                return (
+                  <Pressable
+                    key={item.value}
+                    className={`rounded-full border px-4 py-2 ${
+                      selected ? 'border-info bg-info' : 'border-border bg-surface-elevated'
+                    }`}
+                    onPress={() => setInstitution(item.value)}
+                  >
+                    <Text
+                      variant="caption"
+                      className={
+                        selected ? 'font-manrope-semibold text-white' : 'text-content-secondary'
+                      }
+                    >
+                      {item.label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+            <ScrollView
+              className="-mx-4"
+              contentContainerClassName="gap-2 px-4"
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
+              {RECORD_TYPE_FILTERS.map(item => {
+                const selected = recordType === item.value;
+                return (
+                  <Pressable
+                    key={item.value}
+                    className={`rounded-full border px-4 py-2 ${
+                      selected ? 'border-accent bg-accent' : 'border-border bg-surface-elevated'
+                    }`}
+                    onPress={() => setRecordType(item.value)}
+                  >
+                    <Text
+                      variant="caption"
+                      className={
+                        selected ? 'font-manrope-semibold text-white' : 'text-content-secondary'
                       }
                     >
                       {item.label}

@@ -62,4 +62,33 @@ describe('Estimate store', () => {
       unitPriceKurus: 125050,
     });
   });
+
+  it('updates same-code rows by their source-qualified item ID', () => {
+    const store = useEstimateStore.getState();
+    const rate = {
+      category: 'Mekanik Rayiç',
+      code: '25.100.1001',
+      kind: 'mechanical' as const,
+      name: 'Mekanik rayiç',
+      sourceVersionId: 'yfk-mekanik-rayic-2026-08',
+      unit: 'Ad',
+      unitPriceKurus: 10000,
+    };
+    const position = {
+      ...rate,
+      category: 'Mekanik Birim Fiyatı',
+      name: 'Mekanik birim fiyat',
+      sourceVersionId: 'yfk-mekanik-birim-fiyat-2026-08',
+      unitPriceKurus: 20000,
+    };
+
+    store.setCatalogItemQuantity(rate, 1);
+    store.setCatalogItemQuantity(position, 1);
+    store.setLineQuantity('yfk-mekanik-birim-fiyat-2026-08:mechanical:25.100.1001', 3);
+
+    const lines = useEstimateStore.getState().drafts['cal-konut'].lines;
+    expect(lines).toHaveLength(2);
+    expect(lines.find(line => line.sourceVersionId === rate.sourceVersionId)?.quantity).toBe(1);
+    expect(lines.find(line => line.sourceVersionId === position.sourceVersionId)?.quantity).toBe(3);
+  });
 });

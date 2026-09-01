@@ -1,0 +1,67 @@
+[
+  {
+    "authority": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - YFK",
+    "checksum": "5917414a1e9e238e739a9e16da31479cc9b6d33edc0d049c4e945e76778c6fe5",
+    "currency": "TRY",
+    "id": "yfk-insaat-birim-fiyat-2026-08",
+    "itemKinds": [
+      "construction"
+    ],
+    "label": "YFK 2026 Ağustos İnşaat Birim Fiyatları",
+    "publishedAt": "2026-08-03",
+    "sourceUrl": "https://webdosya.csb.gov.tr/v2/yfk/2026/08/2026-a-ustos-in-aat-birim-fiyatlar-20260803151108.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - YFK",
+    "checksum": "fa90153d524a9bcb710716126f150641e17df593be3eb78074ad48fadc102b2c",
+    "currency": "TRY",
+    "id": "yfk-mekanik-rayic-2026-08",
+    "itemKinds": [
+      "mechanical"
+    ],
+    "label": "YFK 2026 Ağustos Mekanik Tesisat Rayiçleri",
+    "publishedAt": "2026-08-03",
+    "sourceUrl": "https://webdosya.csb.gov.tr/v2/yfk/2026/08/Mekanik-Tesisat-2026-A-ustos-Rayi-leri-20260803151125.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - YFK",
+    "checksum": "808eb002abe0d9756b7a5946d6f01a563a674a98e01af6a3320207c2b429b487",
+    "currency": "TRY",
+    "id": "yfk-mekanik-birim-fiyat-2026-08",
+    "itemKinds": [
+      "mechanical"
+    ],
+    "label": "YFK 2026 Ağustos Mekanik Tesisat Birim Fiyatları",
+    "publishedAt": "2026-08-03",
+    "sourceUrl": "https://webdosya.csb.gov.tr/v2/yfk/2026/08/Mekanik-Tesisat-2026-A-ustos-Birim-Fiyatlar-20260803151136.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - YFK",
+    "checksum": "ebd6bdbacdc0645affeae28f9af7ae94c24c9321b6f0c78e46d37d43cf7791df",
+    "currency": "TRY",
+    "id": "yfk-elektrik-rayic-2026-08",
+    "itemKinds": [
+      "electrical"
+    ],
+    "label": "YFK 2026 Ağustos Elektrik Tesisat Rayiçleri",
+    "publishedAt": "2026-08-03",
+    "sourceUrl": "https://webdosya.csb.gov.tr/v2/yfk/2026/08/2026-a-ustos-elektrik-rayi-ler-20260803151152.pdf",
+    "validFrom": "2026-08-01"
+  },
+  {
+    "authority": "T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı - YFK",
+    "checksum": "3f9cf139e96f291adaf23c84222b0b3c59e847651ae38aa5224a32590e18addc",
+    "currency": "TRY",
+    "id": "yfk-elektrik-birim-fiyat-2026-08",
+    "itemKinds": [
+      "electrical"
+    ],
+    "label": "YFK 2026 Ağustos Elektrik Tesisat Birim Fiyatları",
+    "publishedAt": "2026-08-03",
+    "sourceUrl": "https://webdosya.csb.gov.tr/v2/yfk/2026/08/2026-a-ustos-elektrik-birim-fiyatlar-20260803151207.pdf",
+    "validFrom": "2026-08-01"
+  }
+]

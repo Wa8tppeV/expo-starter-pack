@@ -58,7 +58,7 @@ describe('kuruş money calculations', () => {
     expect(() => applyRateBasisPoints(100, 10.5)).toThrow('safe integer');
   });
 
-  it('totals all four item kinds and retains zero-valued subtotals', () => {
+  it('totals every item kind and retains zero-valued subtotals', () => {
     const totals = calculateCatalogTotals([
       { item: item('L1', 'labor', 10_001), quantity: 2.5 },
       { item: item('M1', 'material', 20_000), quantity: 3 },
@@ -74,6 +74,9 @@ describe('kuruş money calculations', () => {
         { kind: 'material', totalKurus: 60_000 },
         { kind: 'equipment', totalKurus: 0 },
         { kind: 'transport', totalKurus: 12_500 },
+        { kind: 'construction', totalKurus: 0 },
+        { kind: 'mechanical', totalKurus: 0 },
+        { kind: 'electrical', totalKurus: 0 },
       ],
       unitQuantities: [{ quantity: 15.5, unit: 'adet' }],
     });

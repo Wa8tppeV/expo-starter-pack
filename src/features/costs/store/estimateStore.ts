@@ -35,7 +35,7 @@ interface EstimateStore {
   setActiveProject: (projectId: EstimateProjectId) => void;
   setAdjustment: (key: keyof EstimateAdjustments, value: number) => void;
   setCatalogItemQuantity: (item: CatalogItem, quantity: number) => void;
-  setLineQuantity: (code: string, quantity: number) => void;
+  setLineQuantity: (itemIdOrLegacyCode: string, quantity: number) => void;
 }
 
 const updateActiveDraft = (
@@ -104,15 +104,20 @@ export const useEstimateStore = create<EstimateStore>()(
             };
           })
         ),
-      setLineQuantity: (code, quantity) =>
+      setLineQuantity: (itemIdOrLegacyCode, quantity) =>
         set(state =>
           updateActiveDraft(state, draft => {
             const safeQuantity = Math.max(0, quantity);
-            const existingLine = draft.lines.find(line => line.code === code);
-            const rate = LABOR_RATES.find(item => item.code === code);
+            const existingLine = draft.lines.find(
+              line => line.itemId === itemIdOrLegacyCode || line.code === itemIdOrLegacyCode
+            );
+            const rate = LABOR_RATES.find(item => item.code === itemIdOrLegacyCode);
 
             if (safeQuantity === 0) {
-              return { ...draft, lines: draft.lines.filter(line => line.code !== code) };
+              return {
+                ...draft,
+                lines: draft.lines.filter(line => line.itemId !== existingLine?.itemId),
+              };
             }
 
             if (!existingLine && !rate) return draft;
@@ -120,9 +125,9 @@ export const useEstimateStore = create<EstimateStore>()(
             const nextLine: EstimateLine = existingLine
               ? { ...existingLine, quantity: safeQuantity }
               : {
-                  code,
+                  code: itemIdOrLegacyCode,
                   description: rate!.name,
-                  itemId: `${catalogSnapshot.id}:labor:${code}`,
+                  itemId: `${catalogSnapshot.id}:labor:${itemIdOrLegacyCode}`,
                   kind: 'labor',
                   quantity: safeQuantity,
                   sourceVersionId: catalogSnapshot.id,
@@ -133,7 +138,7 @@ export const useEstimateStore = create<EstimateStore>()(
             return {
               ...draft,
               lines: existingLine
-                ? draft.lines.map(line => (line.code === code ? nextLine : line))
+                ? draft.lines.map(line => (line.itemId === existingLine.itemId ? nextLine : line))
                 : [...draft.lines, nextLine],
             };
           })

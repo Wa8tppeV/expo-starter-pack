@@ -14,6 +14,8 @@ import {
   EstimateProjectId,
   formatKurus,
   getActiveDraft,
+  OFFICIAL_CATALOG_EXCLUDED_TARIFF_COUNT,
+  OFFICIAL_CATALOG_ITEM_COUNT,
   useEstimateStore,
   YFK_CATALOG_SOURCE,
 } from '@features';
@@ -80,7 +82,7 @@ export default function CostsScreen() {
           <Ionicons name="information-circle-outline" size={23} color="#D4AF37" />
         </Pressable>
       }
-      subtitle="İşçilik, malzeme, makine ve nakliye kalemleriyle keşfini oluştur."
+      subtitle="İnşaat, mekanik, elektrik, işçilik ve tüm rayiçlerle keşfini oluştur."
       title="Keşif ve Maliyet"
     >
       <View>
@@ -165,7 +167,7 @@ export default function CostsScreen() {
             Keşfe Kalem Ekle
           </Text>
           <Text variant="caption" className="mt-1 text-accent/70">
-            5.521 resmî rayiçte ara ve miktar gir
+            {OFFICIAL_CATALOG_ITEM_COUNT.toLocaleString('tr-TR')} resmî kalemde ara ve miktar gir
           </Text>
         </View>
         <Ionicons name="add-circle" size={32} color="#171717" />
@@ -204,7 +206,7 @@ export default function CostsScreen() {
                     <Pressable
                       accessibilityLabel={`${line.description} miktar azalt`}
                       className="h-9 w-9 items-center justify-center rounded-xl bg-surface-elevated"
-                      onPress={() => setLineQuantity(line.code, line.quantity - 1)}
+                      onPress={() => setLineQuantity(line.itemId, line.quantity - 1)}
                     >
                       <Ionicons name="remove" size={18} color="#171717" />
                     </Pressable>
@@ -214,7 +216,7 @@ export default function CostsScreen() {
                     <Pressable
                       accessibilityLabel={`${line.description} miktar artır`}
                       className="h-9 w-9 items-center justify-center rounded-xl bg-primary"
-                      onPress={() => setLineQuantity(line.code, line.quantity + 1)}
+                      onPress={() => setLineQuantity(line.itemId, line.quantity + 1)}
                     >
                       <Ionicons name="add" size={18} color="#171717" />
                     </Pressable>
@@ -281,6 +283,16 @@ export default function CostsScreen() {
           </View>
           <View className="flex-row justify-between">
             <Text variant="caption" className="text-content-secondary">
+              İnşaat / Mekanik / Elektrik
+            </Text>
+            <Text variant="caption">
+              {formatKurus(totals.constructionSubtotalKurus)} /{' '}
+              {formatKurus(totals.mechanicalSubtotalKurus)} /{' '}
+              {formatKurus(totals.electricalSubtotalKurus)}
+            </Text>
+          </View>
+          <View className="flex-row justify-between">
+            <Text variant="caption" className="text-content-secondary">
               Genel gider / Kâr / KDV
             </Text>
             <Text variant="caption">
@@ -299,10 +311,12 @@ export default function CostsScreen() {
           <Ionicons name="shield-checkmark-outline" size={20} color="#356FA8" />
           <View className="ml-3 flex-1">
             <Text variant="body-medium" className="text-info">
-              {YFK_CATALOG_SOURCE.label}
+              YFK · İLBANK · KVGM/VGM Resmî Kataloğu
             </Text>
             <Text variant="caption" className="mt-1 text-content-secondary">
-              {YFK_CATALOG_SOURCE.validFrom} tarihinden geçerli · 5.521 benzersiz kalem
+              {YFK_CATALOG_SOURCE.validFrom} tarihinden geçerli ·{' '}
+              {OFFICIAL_CATALOG_ITEM_COUNT.toLocaleString('tr-TR')} kodlu kalem ·{' '}
+              {OFFICIAL_CATALOG_EXCLUDED_TARIFF_COUNT.toLocaleString('tr-TR')} kodsuz tarife ayrı
             </Text>
           </View>
           <Ionicons name="open-outline" size={17} color="#356FA8" />
