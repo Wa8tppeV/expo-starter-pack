@@ -61,6 +61,40 @@ export function getUpcomingDiscipline(
     .sort((a, b) => a.dueDate.localeCompare(b.dueDate))[0];
 }
 
+export function getProfessionalAssignments(
+  professionalId: string,
+  data: ProjectOfficeData = mockProjectOfficeData
+) {
+  return data.disciplines
+    .filter(discipline => discipline.professionalId === professionalId)
+    .map(discipline => ({
+      project: getProjectById(discipline.projectId, data),
+      discipline: getDisciplineDetail(discipline, data),
+    }))
+    .filter(assignment => assignment.project !== undefined);
+}
+
+export function getProfessionalSummary(
+  professionalId: string,
+  data: ProjectOfficeData = mockProjectOfficeData
+) {
+  const assignments = getProfessionalAssignments(professionalId, data);
+
+  return {
+    activeProjectCount: new Set(
+      assignments
+        .filter(({ project }) => project?.status === 'Aktif' && !project.archivedAt)
+        .map(({ project }) => project?.id)
+    ).size,
+    totalAgreed: assignments.reduce((total, { discipline }) => total + discipline.agreedFee, 0),
+    totalPaid: assignments.reduce((total, { discipline }) => total + discipline.paidAmount, 0),
+    totalRemaining: assignments.reduce(
+      (total, { discipline }) => total + discipline.remainingAmount,
+      0
+    ),
+  };
+}
+
 export function getProjectRemainingDebt(
   projectId: string,
   data: ProjectOfficeData = mockProjectOfficeData

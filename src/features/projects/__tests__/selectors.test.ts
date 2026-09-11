@@ -5,6 +5,8 @@ import {
   getProjectById,
   getProjectDisciplines,
   getProjectRemainingDebt,
+  getProfessionalAssignments,
+  getProfessionalSummary,
 } from '..';
 
 describe('proje veri seçicileri', () => {
@@ -19,7 +21,7 @@ describe('proje veri seçicileri', () => {
   });
 
   it('proje kimliğine göre doğru projeyi bulur', () => {
-    expect(getProjectById('sahil-konutlari')?.name).toBe('Sahil Konutları');
+    expect(getProjectById('sahil-konutlari')?.name).toBe('Aşağıseyit Konutları');
     expect(getProjectById('bilinmeyen')).toBeUndefined();
   });
 
@@ -30,5 +32,15 @@ describe('proje veri seçicileri', () => {
     expect(summary.completedCount).toBe(1);
     expect(summary.totalDebt).toBe(1364000);
     expect(summary.overdueCount).toBe(1);
+  });
+
+  it('projecinin proje ve finans özetini disiplinlerden hesaplar', () => {
+    const assignments = getProfessionalAssignments('ayse-yilmaz');
+    const summary = getProfessionalSummary('ayse-yilmaz');
+
+    expect(assignments.map(item => item.discipline.type)).toEqual(['Mimari', 'Mimari', 'Mimari']);
+    expect(summary.activeProjectCount).toBe(2);
+    expect(summary.totalAgreed).toBeGreaterThan(summary.totalPaid);
+    expect(summary.totalRemaining).toBe(summary.totalAgreed - summary.totalPaid);
   });
 });

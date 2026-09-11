@@ -1,6 +1,6 @@
 import { createSeedData, NewProjectInput, useProjectOfficeStore } from '@project-office-store';
 
-import { getDisciplineDetail } from '..';
+import { getDashboardSummary, getDisciplineDetail } from '..';
 
 jest.mock('react-native-mmkv', () => ({
   createMMKV: () => ({
@@ -94,6 +94,7 @@ describe('ProjectOffice store', () => {
     const state = useProjectOfficeStore.getState();
     const discipline = state.disciplines.find(item => item.id === 'yalova-statik')!;
     const before = getDisciplineDetail(discipline, state).remainingAmount;
+    const dashboardBefore = getDashboardSummary(state).totalDebt;
 
     useProjectOfficeStore.getState().addPayment({
       projectId: discipline.projectId,
@@ -106,5 +107,6 @@ describe('ProjectOffice store', () => {
 
     const nextState = useProjectOfficeStore.getState();
     expect(getDisciplineDetail(discipline, nextState).remainingAmount).toBe(before - 25000);
+    expect(getDashboardSummary(nextState).totalDebt).toBe(dashboardBefore - 25000);
   });
 });
