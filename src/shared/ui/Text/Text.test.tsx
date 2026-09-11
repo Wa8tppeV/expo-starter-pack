@@ -1,313 +1,313 @@
-import React from "react";
+import React from 'react';
 
-import { render, screen } from "@testing-library/react-native";
+import { render, screen } from '@testing-library/react-native';
 
-import { Text } from "./Text";
+import { Text } from './Text';
 
-describe("Text Component", () => {
-  describe("variant prop - Display", () => {
-    it("should render with display variant", () => {
+describe('Text Component', () => {
+  describe('variant prop - Display', () => {
+    it('should render with display variant', () => {
       render(
         <Text testID="display-text" variant="display">
           95
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("display-text");
+      const element = screen.getByTestId('display-text');
 
-      expect(element.props.className).toContain("text-display");
-      expect(element.props.className).toContain("font-manrope-extrabold");
+      expect(element.props.className).toContain('text-display');
+      expect(element.props.className).toContain('font-manrope-extrabold');
     });
 
-    it("should render with display-sm variant", () => {
+    it('should render with display-sm variant', () => {
       render(
         <Text testID="display-sm-text" variant="display-sm">
           48
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("display-sm-text");
+      const element = screen.getByTestId('display-sm-text');
 
-      expect(element.props.className).toContain("text-display-sm");
-      expect(element.props.className).toContain("font-manrope-extrabold");
+      expect(element.props.className).toContain('text-display-sm');
+      expect(element.props.className).toContain('font-manrope-extrabold');
     });
   });
 
-  describe("variant prop - Headings", () => {
-    it("should render with h1 variant", () => {
+  describe('variant prop - Headings', () => {
+    it('should render with h1 variant', () => {
       render(
         <Text testID="h1-text" variant="h1">
           Page Title
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("h1-text");
+      const element = screen.getByTestId('h1-text');
 
-      expect(element.props.className).toContain("text-h1");
-      expect(element.props.className).toContain("font-manrope-bold");
+      expect(element.props.className).toContain('text-h1');
+      expect(element.props.className).toContain('font-manrope-bold');
     });
 
-    it("should render with h1-sm variant", () => {
+    it('should render with h1-sm variant', () => {
       render(
         <Text testID="h1-sm-text" variant="h1-sm">
           Small Title
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("h1-sm-text");
+      const element = screen.getByTestId('h1-sm-text');
 
-      expect(element.props.className).toContain("text-h1-sm");
-      expect(element.props.className).toContain("font-manrope-bold");
+      expect(element.props.className).toContain('text-h1-sm');
+      expect(element.props.className).toContain('font-manrope-bold');
     });
 
-    it("should render with h2 variant", () => {
+    it('should render with h2 variant', () => {
       render(
         <Text testID="h2-text" variant="h2">
           Section
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("h2-text");
+      const element = screen.getByTestId('h2-text');
 
-      expect(element.props.className).toContain("text-h2");
-      expect(element.props.className).toContain("font-manrope-semibold");
+      expect(element.props.className).toContain('text-h2');
+      expect(element.props.className).toContain('font-manrope-semibold');
     });
 
-    it("should render with h2-sm variant", () => {
+    it('should render with h2-sm variant', () => {
       render(
         <Text testID="h2-sm-text" variant="h2-sm">
           Small Section
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("h2-sm-text");
+      const element = screen.getByTestId('h2-sm-text');
 
-      expect(element.props.className).toContain("text-h2-sm");
-      expect(element.props.className).toContain("font-manrope-semibold");
+      expect(element.props.className).toContain('text-h2-sm');
+      expect(element.props.className).toContain('font-manrope-semibold');
     });
 
-    it("should render with h3 variant", () => {
+    it('should render with h3 variant', () => {
       render(
         <Text testID="h3-text" variant="h3">
           Subsection
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("h3-text");
+      const element = screen.getByTestId('h3-text');
 
-      expect(element.props.className).toContain("text-h3");
-      expect(element.props.className).toContain("font-manrope-semibold");
+      expect(element.props.className).toContain('text-h3');
+      expect(element.props.className).toContain('font-manrope-semibold');
     });
 
-    it("should render with h3-sm variant", () => {
+    it('should render with h3-sm variant', () => {
       render(
         <Text testID="h3-sm-text" variant="h3-sm">
           Small Sub
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("h3-sm-text");
+      const element = screen.getByTestId('h3-sm-text');
 
-      expect(element.props.className).toContain("text-h3-sm");
-      expect(element.props.className).toContain("font-manrope-semibold");
+      expect(element.props.className).toContain('text-h3-sm');
+      expect(element.props.className).toContain('font-manrope-semibold');
     });
   });
 
-  describe("variant prop - Body", () => {
-    it("should render with body variant", () => {
+  describe('variant prop - Body', () => {
+    it('should render with body variant', () => {
       render(
         <Text testID="body-text" variant="body">
           Body text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("body-text");
+      const element = screen.getByTestId('body-text');
 
-      expect(element.props.className).toContain("text-body");
-      expect(element.props.className).toContain("font-manrope");
+      expect(element.props.className).toContain('text-body');
+      expect(element.props.className).toContain('font-manrope');
     });
 
-    it("should render with body-sm variant", () => {
+    it('should render with body-sm variant', () => {
       render(
         <Text testID="body-sm-text" variant="body-sm">
           Small body
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("body-sm-text");
+      const element = screen.getByTestId('body-sm-text');
 
-      expect(element.props.className).toContain("text-body-sm");
-      expect(element.props.className).toContain("font-manrope");
+      expect(element.props.className).toContain('text-body-sm');
+      expect(element.props.className).toContain('font-manrope');
     });
 
-    it("should render with body-medium variant", () => {
+    it('should render with body-medium variant', () => {
       render(
         <Text testID="body-medium-text" variant="body-medium">
           Medium body
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("body-medium-text");
+      const element = screen.getByTestId('body-medium-text');
 
-      expect(element.props.className).toContain("text-body");
-      expect(element.props.className).toContain("font-manrope-medium");
+      expect(element.props.className).toContain('text-body');
+      expect(element.props.className).toContain('font-manrope-medium');
     });
   });
 
-  describe("variant prop - Caption and Small", () => {
-    it("should render with caption variant", () => {
+  describe('variant prop - Caption and Small', () => {
+    it('should render with caption variant', () => {
       render(
         <Text testID="caption-text" variant="caption">
           Caption text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("caption-text");
+      const element = screen.getByTestId('caption-text');
 
-      expect(element.props.className).toContain("text-caption");
-      expect(element.props.className).toContain("font-manrope-medium");
+      expect(element.props.className).toContain('text-caption');
+      expect(element.props.className).toContain('font-manrope-medium');
     });
 
-    it("should render with caption-sm variant", () => {
+    it('should render with caption-sm variant', () => {
       render(
         <Text testID="caption-sm-text" variant="caption-sm">
           Small caption
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("caption-sm-text");
+      const element = screen.getByTestId('caption-sm-text');
 
-      expect(element.props.className).toContain("text-caption-sm");
-      expect(element.props.className).toContain("font-manrope-medium");
+      expect(element.props.className).toContain('text-caption-sm');
+      expect(element.props.className).toContain('font-manrope-medium');
     });
 
-    it("should render with small variant", () => {
+    it('should render with small variant', () => {
       render(
         <Text testID="small-text" variant="small">
           Fine print
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("small-text");
+      const element = screen.getByTestId('small-text');
 
-      expect(element.props.className).toContain("text-small");
-      expect(element.props.className).toContain("font-manrope");
+      expect(element.props.className).toContain('text-small');
+      expect(element.props.className).toContain('font-manrope');
     });
   });
 
-  describe("custom className prop", () => {
-    it("should merge variant classes with custom className", () => {
+  describe('custom className prop', () => {
+    it('should merge variant classes with custom className', () => {
       render(
         <Text testID="colored-heading" variant="h1" className="text-blue-500">
           Colored Heading
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("colored-heading");
+      const element = screen.getByTestId('colored-heading');
 
       const className = element.props.className;
-      expect(className).toContain("text-h1");
-      expect(className).toContain("font-manrope-bold");
-      expect(className).toContain("text-blue-500");
+      expect(className).toContain('text-h1');
+      expect(className).toContain('font-manrope-bold');
+      expect(className).toContain('text-blue-500');
     });
 
-    it("should add additional utility classes", () => {
+    it('should add additional utility classes', () => {
       render(
         <Text testID="padded-text" variant="body" className="mb-4 px-2">
           Padded Text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("padded-text");
+      const element = screen.getByTestId('padded-text');
 
       const className = element.props.className;
-      expect(className).toContain("text-body");
-      expect(className).toContain("font-manrope");
-      expect(className).toContain("mb-4");
-      expect(className).toContain("px-2");
+      expect(className).toContain('text-body');
+      expect(className).toContain('font-manrope');
+      expect(className).toContain('mb-4');
+      expect(className).toContain('px-2');
     });
 
-    it("should work without variant", () => {
+    it('should work without variant', () => {
       render(
         <Text testID="custom-text" className="text-red-500">
           Custom styled text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("custom-text");
+      const element = screen.getByTestId('custom-text');
 
-      expect(element.props.className).toBe("text-red-500");
+      expect(element.props.className).toBe('text-content text-red-500');
     });
   });
 
-  describe("children rendering", () => {
-    it("should render string children", () => {
-      const content = "Hello World";
+  describe('children rendering', () => {
+    it('should render string children', () => {
+      const content = 'Hello World';
       render(<Text testID="string-children">{content}</Text>);
-      const element = screen.getByTestId("string-children");
+      const element = screen.getByTestId('string-children');
 
       expect(element.props.children).toBe(content);
     });
 
-    it("should render empty component", () => {
+    it('should render empty component', () => {
       render(<Text testID="empty-text" />);
-      const element = screen.getByTestId("empty-text");
+      const element = screen.getByTestId('empty-text');
 
       expect(element).toBeTruthy();
     });
 
-    it("should render number children", () => {
+    it('should render number children', () => {
       render(
         <Text testID="number-children" variant="display">
           {95}
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("number-children");
+      const element = screen.getByTestId('number-children');
 
       expect(element.props.children).toBe(95);
     });
 
-    it("should render by text content", () => {
+    it('should render by text content', () => {
       render(
         <Text testID="content-text" variant="h2">
           Hello World
-        </Text>,
+        </Text>
       );
 
-      expect(screen.getByText("Hello World")).toBeTruthy();
+      expect(screen.getByText('Hello World')).toBeTruthy();
     });
   });
 
-  describe("React Native Text props forwarding", () => {
-    it("should forward numberOfLines prop", () => {
+  describe('React Native Text props forwarding', () => {
+    it('should forward numberOfLines prop', () => {
       render(
         <Text testID="lines-text" numberOfLines={2}>
           Long text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("lines-text");
+      const element = screen.getByTestId('lines-text');
 
       expect(element.props.numberOfLines).toBe(2);
     });
 
-    it("should forward ellipsizeMode prop", () => {
+    it('should forward ellipsizeMode prop', () => {
       render(
         <Text testID="ellipsize-text" ellipsizeMode="tail">
           Long text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("ellipsize-text");
+      const element = screen.getByTestId('ellipsize-text');
 
-      expect(element.props.ellipsizeMode).toBe("tail");
+      expect(element.props.ellipsizeMode).toBe('tail');
     });
 
-    it("should forward onPress prop", () => {
+    it('should forward onPress prop', () => {
       const onPress = jest.fn();
       render(
         <Text testID="press-text" onPress={onPress}>
           Pressable
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("press-text");
+      const element = screen.getByTestId('press-text');
 
       expect(element.props.onPress).toBe(onPress);
     });
 
-    it("should forward selectable prop", () => {
+    it('should forward selectable prop', () => {
       render(
         <Text testID="selectable-text" selectable={true}>
           Selectable text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("selectable-text");
+      const element = screen.getByTestId('selectable-text');
 
       expect(element.props.selectable).toBe(true);
     });
 
-    it("should forward multiple props together", () => {
+    it('should forward multiple props together', () => {
       const onPress = jest.fn();
       render(
         <Text
@@ -320,91 +320,87 @@ describe("Text Component", () => {
           className="text-gray-500"
         >
           Multi-prop text
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("multi-props-text");
+      const element = screen.getByTestId('multi-props-text');
 
       expect(element.props.numberOfLines).toBe(1);
-      expect(element.props.ellipsizeMode).toBe("tail");
+      expect(element.props.ellipsizeMode).toBe('tail');
       expect(element.props.onPress).toBe(onPress);
       expect(element.props.selectable).toBe(false);
-      expect(element.props.className).toContain("text-gray-500");
+      expect(element.props.className).toContain('text-gray-500');
     });
   });
 
-  describe("edge cases", () => {
-    it("should render without variant prop", () => {
+  describe('edge cases', () => {
+    it('should render without variant prop', () => {
       render(<Text testID="no-variant-text">Unstyled</Text>);
-      const element = screen.getByTestId("no-variant-text");
+      const element = screen.getByTestId('no-variant-text');
 
-      expect(element.props.className).toBe("");
+      expect(element.props.className).toBe('text-content ');
     });
 
-    it("should handle empty className gracefully", () => {
+    it('should handle empty className gracefully', () => {
       render(
         <Text testID="empty-class-text" variant="h1" className="">
           Heading
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("empty-class-text");
+      const element = screen.getByTestId('empty-class-text');
 
-      expect(element.props.className).toContain("text-h1");
-      expect(element.props.className).toContain("font-manrope-bold");
+      expect(element.props.className).toContain('text-h1');
+      expect(element.props.className).toContain('font-manrope-bold');
     });
 
-    it("should trim whitespace from className", () => {
+    it('should trim whitespace from className', () => {
       render(
-        <Text
-          testID="trim-class-text"
-          variant="body"
-          className="  text-blue-500  "
-        >
+        <Text testID="trim-class-text" variant="body" className="  text-blue-500  ">
           Trimmed
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("trim-class-text");
+      const element = screen.getByTestId('trim-class-text');
 
       const className = element.props.className;
       expect(className?.trim()).toBe(className);
     });
   });
 
-  describe("complete integration tests", () => {
-    it("should render all typography variants correctly", () => {
+  describe('complete integration tests', () => {
+    it('should render all typography variants correctly', () => {
       const variants = [
-        "display",
-        "display-sm",
-        "h1",
-        "h1-sm",
-        "h2",
-        "h2-sm",
-        "h3",
-        "h3-sm",
-        "body",
-        "body-sm",
-        "body-medium",
-        "caption",
-        "caption-sm",
-        "small",
+        'display',
+        'display-sm',
+        'h1',
+        'h1-sm',
+        'h2',
+        'h2-sm',
+        'h3',
+        'h3-sm',
+        'body',
+        'body-sm',
+        'body-medium',
+        'caption',
+        'caption-sm',
+        'small',
       ] as const;
 
-      variants.forEach((variant) => {
+      variants.forEach(variant => {
         const { unmount } = render(
           <Text testID={`variant-${variant}`} variant={variant}>
             Test {variant}
-          </Text>,
+          </Text>
         );
         const element = screen.getByTestId(`variant-${variant}`);
 
         expect(element).toBeTruthy();
         expect(element.props.className).toBeTruthy();
-        expect(typeof element.props.className).toBe("string");
+        expect(typeof element.props.className).toBe('string');
 
         unmount();
       });
     });
 
-    it("should combine multiple Tailwind classes correctly", () => {
+    it('should combine multiple Tailwind classes correctly', () => {
       render(
         <Text
           testID="complex-style-text"
@@ -412,20 +408,20 @@ describe("Text Component", () => {
           className="mb-4 px-2 leading-tight text-blue-500"
         >
           Complex styling
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("complex-style-text");
+      const element = screen.getByTestId('complex-style-text');
 
       const className = element.props.className;
-      expect(className).toContain("text-h1");
-      expect(className).toContain("font-manrope-bold");
-      expect(className).toContain("text-blue-500");
-      expect(className).toContain("mb-4");
-      expect(className).toContain("px-2");
-      expect(className).toContain("leading-tight");
+      expect(className).toContain('text-h1');
+      expect(className).toContain('font-manrope-bold');
+      expect(className).toContain('text-blue-500');
+      expect(className).toContain('mb-4');
+      expect(className).toContain('px-2');
+      expect(className).toContain('leading-tight');
     });
 
-    it("should handle variant + custom classes + props together", () => {
+    it('should handle variant + custom classes + props together', () => {
       const onPress = jest.fn();
       render(
         <Text
@@ -436,14 +432,14 @@ describe("Text Component", () => {
           onPress={onPress}
         >
           Full integration test
-        </Text>,
+        </Text>
       );
-      const element = screen.getByTestId("full-integration");
+      const element = screen.getByTestId('full-integration');
 
-      expect(element.props.className).toContain("text-caption");
-      expect(element.props.className).toContain("font-manrope-medium");
-      expect(element.props.className).toContain("text-gray-600");
-      expect(element.props.className).toContain("underline");
+      expect(element.props.className).toContain('text-caption');
+      expect(element.props.className).toContain('font-manrope-medium');
+      expect(element.props.className).toContain('text-gray-600');
+      expect(element.props.className).toContain('underline');
       expect(element.props.numberOfLines).toBe(1);
       expect(element.props.onPress).toBe(onPress);
     });
