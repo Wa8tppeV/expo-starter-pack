@@ -13,7 +13,8 @@
       "@services": ["src/shared/services"],
       "@store": ["src/shared/store"],
       "@providers": ["src/shared/providers"],
-      "@features": ["src/features"]
+      "@features": ["src/features"],
+      "@project-office-store": ["src/features/projectOfficeStore"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"]

@@ -1,20 +1,35 @@
 import { disciplines, payments, professionals, projects } from './data/mockData';
-import { DISCIPLINE_TYPES, Discipline, DisciplineDetail, Project } from './types';
+import {
+  DISCIPLINE_TYPES,
+  Discipline,
+  DisciplineDetail,
+  Project,
+  ProjectOfficeData,
+} from './types';
 
-export function getProjectById(projectId: string): Project | undefined {
-  return projects.find(project => project.id === projectId);
+export const mockProjectOfficeData: ProjectOfficeData = {
+  projects,
+  disciplines,
+  professionals,
+  payments,
+};
+
+export function getProjectById(
+  projectId: string,
+  data: ProjectOfficeData = mockProjectOfficeData
+): Project | undefined {
+  return data.projects.find(project => project.id === projectId);
 }
 
-export function getDisciplineDetail(discipline: Discipline): DisciplineDetail {
-  const professional = professionals.find(item => item.id === discipline.professionalId);
-
-  if (!professional) {
-    throw new Error(`Proje müellifi bulunamadı: ${discipline.professionalId}`);
-  }
-
-  const paidAmount = payments
+export function getDisciplineDetail(
+  discipline: Discipline,
+  data: ProjectOfficeData = mockProjectOfficeData
+): DisciplineDetail {
+  const professional = data.professionals.find(item => item.id === discipline.professionalId);
+  const recordedPayments = data.payments
     .filter(payment => payment.disciplineId === discipline.id)
     .reduce((total, payment) => total + payment.amount, 0);
+  const paidAmount = Math.max(recordedPayments + discipline.paidAdjustment, 0);
 
   return {
     ...discipline,
@@ -24,33 +39,53 @@ export function getDisciplineDetail(discipline: Discipline): DisciplineDetail {
   };
 }
 
-export function getProjectDisciplines(projectId: string): DisciplineDetail[] {
+export function getProjectDisciplines(
+  projectId: string,
+  data: ProjectOfficeData = mockProjectOfficeData
+): DisciplineDetail[] {
   return DISCIPLINE_TYPES.map(type =>
-    disciplines.find(discipline => discipline.projectId === projectId && discipline.type === type)
+    data.disciplines.find(
+      discipline => discipline.projectId === projectId && discipline.type === type
+    )
   )
     .filter((discipline): discipline is Discipline => Boolean(discipline))
-    .map(getDisciplineDetail);
+    .map(discipline => getDisciplineDetail(discipline, data));
 }
 
-export function getUpcomingDiscipline(projectId: string): DisciplineDetail | undefined {
-  return getProjectDisciplines(projectId)
+export function getUpcomingDiscipline(
+  projectId: string,
+  data: ProjectOfficeData = mockProjectOfficeData
+): DisciplineDetail | undefined {
+  return getProjectDisciplines(projectId, data)
     .filter(discipline => discipline.status !== 'Tamamlandı')
     .sort((a, b) => a.dueDate.localeCompare(b.dueDate))[0];
 }
 
-export function getProjectRemainingDebt(projectId: string): number {
-  return getProjectDisciplines(projectId).reduce(
+export function getProjectRemainingDebt(
+  projectId: string,
+  data: ProjectOfficeData = mockProjectOfficeData
+): number {
+  return getProjectDisciplines(projectId, data).reduce(
     (total, discipline) => total + discipline.remainingAmount,
     0
   );
 }
 
-export function getDashboardSummary(referenceDate = new Date()) {
-  const activeProjects = projects.filter(project => project.status === 'Aktif');
-  const completedProjects = projects.filter(project => project.status === 'Tamamlandı');
+export function getDashboardSummary(
+  data: ProjectOfficeData = mockProjectOfficeData,
+  referenceDate = new Date()
+) {
+  const activeProjects = data.projects.filter(
+    project => project.status === 'Aktif' && !project.archivedAt
+  );
+  const completedProjects = data.projects.filter(
+    project => project.status === 'Tamamlandı' && !project.archivedAt
+  );
   const month = referenceDate.getMonth();
   const year = referenceDate.getFullYear();
-  const activeDisciplines = activeProjects.flatMap(project => getProjectDisciplines(project.id));
+  const activeDisciplines = activeProjects.flatMap(project =>
+    getProjectDisciplines(project.id, data)
+  );
 
   const overdueCount = activeDisciplines.filter(discipline => {
     const dueDate = new Date(`${discipline.dueDate}T00:00:00`);
@@ -68,7 +103,7 @@ export function getDashboardSummary(referenceDate = new Date()) {
     activeCount: activeProjects.length,
     completedCount: completedProjects.length,
     totalDebt: activeProjects.reduce(
-      (total, project) => total + getProjectRemainingDebt(project.id),
+      (total, project) => total + getProjectRemainingDebt(project.id, data),
       0
     ),
     dueThisMonth,
@@ -77,11 +112,11 @@ export function getDashboardSummary(referenceDate = new Date()) {
 }
 
 export function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('tr-TR', {
-    style: 'currency',
-    currency: 'TRY',
+  const amount = new Intl.NumberFormat('tr-TR', {
     maximumFractionDigits: 0,
   }).format(value);
+
+  return `${amount} ₺`;
 }
 
 export function formatDate(value: string): string {

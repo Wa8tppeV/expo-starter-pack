@@ -1,5 +1,6 @@
 import {
   DISCIPLINE_TYPES,
+  mockProjectOfficeData,
   getDashboardSummary,
   getProjectById,
   getProjectDisciplines,
@@ -23,7 +24,7 @@ describe('proje veri seçicileri', () => {
   });
 
   it('ana ekran özetini merkezi veriden üretir', () => {
-    const summary = getDashboardSummary(new Date('2026-09-11T12:00:00'));
+    const summary = getDashboardSummary(mockProjectOfficeData, new Date('2026-09-11T12:00:00'));
 
     expect(summary.activeCount).toBe(2);
     expect(summary.completedCount).toBe(1);

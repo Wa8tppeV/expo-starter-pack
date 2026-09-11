@@ -26,7 +26,7 @@ describe('Ana ekran', () => {
     render(<Index />);
 
     expect(screen.getByText('Proje Ofisi')).toBeTruthy();
-    expect(screen.getByText('₺1.364.000')).toBeTruthy();
+    expect(screen.getByText('1.364.000 ₺')).toBeTruthy();
     expect(screen.getByText('2')).toBeTruthy();
     expect(screen.getByText('1')).toBeTruthy();
     expect(screen.getByText('1 geciken iş var')).toBeTruthy();

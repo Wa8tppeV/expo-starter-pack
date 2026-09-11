@@ -17,6 +17,7 @@ export const projects: Project[] = [
     startDate: '2026-02-03',
     estimatedEndDate: '2026-10-30',
     note: 'Ruhsat başvurusundaki belediye görüşleri takip edilecek.',
+    archivedAt: null,
   },
   {
     id: 'sahil-konutlari',
@@ -34,6 +35,7 @@ export const projects: Project[] = [
     startDate: '2026-04-14',
     estimatedEndDate: '2027-01-20',
     note: 'Mimari revizyon sonrası diğer disiplinler koordine edilecek.',
+    archivedAt: null,
   },
   {
     id: 'merkez-ofis',
@@ -51,6 +53,7 @@ export const projects: Project[] = [
     startDate: '2025-09-08',
     estimatedEndDate: '2026-07-15',
     note: 'Tüm proje paftaları arşivlendi.',
+    archivedAt: null,
   },
 ];
 
@@ -99,7 +102,7 @@ export const professionals: Professional[] = [
   },
 ];
 
-export const disciplines: Discipline[] = [
+const seededDisciplines: Omit<Discipline, 'paidAdjustment'>[] = [
   {
     id: 'yalova-mimari',
     projectId: 'yalova-villa',
@@ -282,6 +285,11 @@ export const disciplines: Discipline[] = [
   },
 ];
 
+export const disciplines: Discipline[] = seededDisciplines.map(discipline => ({
+  ...discipline,
+  paidAdjustment: 0,
+}));
+
 export const payments: Payment[] = [
   {
     id: 'pay-001',
@@ -357,7 +365,10 @@ export const payments: Payment[] = [
     paidAt: '2026-05-22',
   },
   ...disciplines
-    .filter(discipline => discipline.projectId === 'merkez-ofis')
+    .filter(
+      (discipline): discipline is Discipline & { professionalId: string } =>
+        discipline.projectId === 'merkez-ofis' && Boolean(discipline.professionalId)
+    )
     .map((discipline, index) => ({
       id: `pay-ofis-${index + 1}`,
       projectId: discipline.projectId,

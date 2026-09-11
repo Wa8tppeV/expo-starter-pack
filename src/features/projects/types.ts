@@ -32,14 +32,16 @@ export interface Project {
   startDate: string;
   estimatedEndDate: string;
   note: string;
+  archivedAt: string | null;
 }
 
 export interface Discipline {
   id: string;
   projectId: string;
   type: DisciplineType;
-  professionalId: string;
+  professionalId: string | null;
   agreedFee: number;
+  paidAdjustment: number;
   status: WorkStatus;
   dueDate: string;
   note: string;
@@ -64,7 +66,14 @@ export interface Payment {
 }
 
 export interface DisciplineDetail extends Discipline {
-  professional: Professional;
+  professional?: Professional;
   paidAmount: number;
   remainingAmount: number;
+}
+
+export interface ProjectOfficeData {
+  projects: Project[];
+  disciplines: Discipline[];
+  professionals: Professional[];
+  payments: Payment[];
 }

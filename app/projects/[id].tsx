@@ -65,6 +65,9 @@ function FinancialItem({ label, value }: { label: string; value: string }) {
 
 function DisciplineCard({ discipline }: { discipline: DisciplineDetail }) {
   const statusStyle = statusClasses[discipline.status];
+  const professionalName = discipline.professional?.name ?? 'Sorumlu atanmadı';
+  const professionalCompany = discipline.professional?.company ?? 'Kişi seçilmedi';
+  const professionalPhone = discipline.professional?.phone ?? 'Telefon girilmedi';
   const paidRatio =
     discipline.agreedFee === 0
       ? 0
@@ -86,15 +89,15 @@ function DisciplineCard({ discipline }: { discipline: DisciplineDetail }) {
       <View className="mt-4 flex-row items-center gap-3 rounded-2xl bg-surface p-3">
         <View className="h-11 w-11 items-center justify-center rounded-full bg-primary/15">
           <Text variant="h3-sm" className="text-primary">
-            {discipline.professional.name.charAt(0)}
+            {professionalName === 'Sorumlu atanmadı' ? '?' : professionalName.charAt(0)}
           </Text>
         </View>
         <View className="flex-1">
           <Text variant="body-medium" className="text-content">
-            {discipline.professional.name}
+            {professionalName}
           </Text>
           <Text variant="caption-sm" className="mt-0.5 text-content-secondary">
-            {discipline.professional.company ?? discipline.type}
+            {professionalCompany}
           </Text>
         </View>
         <Ionicons name="person-outline" size={19} color="#9B9389" />
@@ -103,7 +106,7 @@ function DisciplineCard({ discipline }: { discipline: DisciplineDetail }) {
       <View className="mt-4 flex-row items-center gap-2">
         <Ionicons name="call-outline" size={17} color="#68615B" />
         <Text variant="caption" className="text-content-secondary">
-          {discipline.professional.phone}
+          {professionalPhone}
         </Text>
       </View>
 
