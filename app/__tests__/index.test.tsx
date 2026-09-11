@@ -8,6 +8,12 @@ jest.mock('@expo/vector-icons', () => ({
   Ionicons: () => null,
 }));
 
+jest.mock('expo-router', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
 jest.mock('@hooks', () => ({
   useTheme: () => ({
     theme: 'light',
@@ -20,10 +26,10 @@ describe('Ana ekran', () => {
     render(<Index />);
 
     expect(screen.getByText('Proje Ofisi')).toBeTruthy();
-    expect(screen.getByText('₺1.285.000')).toBeTruthy();
-    expect(screen.getByText('4')).toBeTruthy();
-    expect(screen.getByText('12')).toBeTruthy();
-    expect(screen.getByText('3 geciken iş var')).toBeTruthy();
+    expect(screen.getByText('₺1.364.000')).toBeTruthy();
+    expect(screen.getByText('2')).toBeTruthy();
+    expect(screen.getByText('1')).toBeTruthy();
+    expect(screen.getByText('1 geciken iş var')).toBeTruthy();
   });
 
   it('demo aktif projelerini gösterir', () => {
@@ -31,6 +37,6 @@ describe('Ana ekran', () => {
 
     expect(screen.getByText('Yalova Villa Projesi')).toBeTruthy();
     expect(screen.getByText('Sahil Konutları')).toBeTruthy();
-    expect(screen.getByText('Merkez Ofis')).toBeTruthy();
+    expect(screen.queryByText('Merkez Ofis')).toBeNull();
   });
 });

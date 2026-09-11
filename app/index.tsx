@@ -4,51 +4,26 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { useRouter } from 'expo-router';
+
+import {
+  Project,
+  WorkStatus,
+  formatCurrency,
+  formatShortDate,
+  getDashboardSummary,
+  getUpcomingDiscipline,
+  projects,
+} from '@features';
 import { useTheme } from '@hooks';
 import { Text } from '@ui';
 
-type ProjectStatus = 'Çalışılıyor' | 'Revizyonda' | 'Onay Bekliyor';
-
-interface ProjectSummary {
-  id: string;
-  name: string;
-  location: string;
-  progress: number;
-  status: ProjectStatus;
-  nextDiscipline: string;
-}
-
-const projects: ProjectSummary[] = [
-  {
-    id: 'yalova-villa',
-    name: 'Yalova Villa Projesi',
-    location: 'Çınarcık / Yalova',
-    progress: 72,
-    status: 'Çalışılıyor',
-    nextDiscipline: 'Mekanik proje · 18 Eyl',
-  },
-  {
-    id: 'sahil-konutlari',
-    name: 'Sahil Konutları',
-    location: 'Mudanya / Bursa',
-    progress: 48,
-    status: 'Revizyonda',
-    nextDiscipline: 'Statik proje · 22 Eyl',
-  },
-  {
-    id: 'merkez-ofis',
-    name: 'Merkez Ofis',
-    location: 'Nilüfer / Bursa',
-    progress: 86,
-    status: 'Onay Bekliyor',
-    nextDiscipline: 'Elektrik proje · 26 Eyl',
-  },
-];
-
-const statusClasses: Record<ProjectStatus, string> = {
-  Çalışılıyor: 'bg-info/10 text-info',
-  Revizyonda: 'bg-warning/10 text-warning',
-  'Onay Bekliyor': 'bg-primary/10 text-primary',
+const statusClasses: Record<WorkStatus, { container: string; text: string }> = {
+  Başlamadı: { container: 'bg-surface', text: 'text-content-secondary' },
+  Çalışılıyor: { container: 'bg-info/10', text: 'text-info' },
+  Revizyonda: { container: 'bg-warning/10', text: 'text-warning' },
+  'Onay Bekliyor': { container: 'bg-primary/10', text: 'text-primary' },
+  Tamamlandı: { container: 'bg-success/10', text: 'text-success' },
 };
 
 function MetricCard({
@@ -75,11 +50,16 @@ function MetricCard({
   );
 }
 
-function ProjectCard({ project }: { project: ProjectSummary }) {
+function ProjectCard({ project }: { project: Project }) {
+  const router = useRouter();
+  const upcoming = getUpcomingDiscipline(project.id);
+  const statusStyle = upcoming ? statusClasses[upcoming.status] : statusClasses.Tamamlandı;
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={`${project.name} detayını aç`}
+      onPress={() => router.push({ pathname: '/projects/[id]', params: { id: project.id } })}
       className="rounded-3xl border border-border bg-surface-elevated p-5 active:opacity-70"
     >
       <View className="flex-row items-start justify-between gap-3">
@@ -90,13 +70,13 @@ function ProjectCard({ project }: { project: ProjectSummary }) {
           <View className="mt-1 flex-row items-center gap-1.5">
             <Ionicons name="location-outline" size={14} color="#9B9389" />
             <Text variant="caption-sm" className="text-content-tertiary">
-              {project.location}
+              {project.district} / {project.city}
             </Text>
           </View>
         </View>
-        <View className={`rounded-full px-3 py-1.5 ${statusClasses[project.status]}`}>
-          <Text variant="small" className={statusClasses[project.status]}>
-            {project.status}
+        <View className={`rounded-full px-3 py-1.5 ${statusStyle.container}`}>
+          <Text variant="small" className={statusStyle.text}>
+            {upcoming?.status ?? 'Tamamlandı'}
           </Text>
         </View>
       </View>
@@ -120,7 +100,9 @@ function ProjectCard({ project }: { project: ProjectSummary }) {
         <View className="flex-row items-center gap-2">
           <Ionicons name="calendar-outline" size={16} color="#68615B" />
           <Text variant="caption" className="text-content-secondary">
-            {project.nextDiscipline}
+            {upcoming
+              ? `${upcoming.type} · ${formatShortDate(upcoming.dueDate)}`
+              : 'Tüm disiplinler tamamlandı'}
           </Text>
         </View>
         <Ionicons name="chevron-forward" size={18} color="#9B9389" />
@@ -130,7 +112,10 @@ function ProjectCard({ project }: { project: ProjectSummary }) {
 }
 
 export default function Index() {
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const summary = getDashboardSummary();
+  const activeProjects = projects.filter(project => project.status === 'Aktif');
 
   return (
     <ScrollView
@@ -169,7 +154,7 @@ export default function Index() {
               Toplam proje borcu
             </Text>
             <Text variant="h1" className="mt-1 text-white">
-              ₺1.285.000
+              {formatCurrency(summary.totalDebt)}
             </Text>
           </View>
           <View className="h-11 w-11 items-center justify-center rounded-2xl bg-white/15">
@@ -179,10 +164,10 @@ export default function Index() {
         <View className="mt-5 flex-row items-center justify-between rounded-2xl bg-black/10 px-4 py-3">
           <View>
             <Text variant="small" className="text-white/70">
-              Bu ay ödenecek
+              Bu ay teslimli kalan
             </Text>
             <Text variant="h3-sm" className="mt-0.5 text-white">
-              ₺245.000
+              {formatCurrency(summary.dueThisMonth)}
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
@@ -195,8 +180,16 @@ export default function Index() {
       </View>
 
       <View className="flex-row gap-3">
-        <MetricCard icon="business-outline" value="4" label="Aktif proje" />
-        <MetricCard icon="checkmark-done-outline" value="12" label="Tamamlanan" />
+        <MetricCard
+          icon="business-outline"
+          value={String(summary.activeCount)}
+          label="Aktif proje"
+        />
+        <MetricCard
+          icon="checkmark-done-outline"
+          value={String(summary.completedCount)}
+          label="Tamamlanan"
+        />
       </View>
 
       <Pressable
@@ -209,10 +202,10 @@ export default function Index() {
         </View>
         <View className="flex-1">
           <Text variant="body-medium" className="text-content">
-            3 geciken iş var
+            {summary.overdueCount} geciken iş var
           </Text>
           <Text variant="caption" className="mt-0.5 text-content-secondary">
-            En yakın gecikme: Mimari proje · 2 gün
+            Teslim tarihi geçen disiplinleri kontrol edin
           </Text>
         </View>
         <Ionicons name="chevron-forward" size={19} color="#C73E3A" />
@@ -228,14 +221,18 @@ export default function Index() {
               Son teslim ve ilerleme özeti
             </Text>
           </View>
-          <Pressable accessibilityRole="button" accessibilityLabel="Tüm projeleri görüntüle">
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Tüm projeleri görüntüle"
+            onPress={() => router.push('/projects')}
+          >
             <Text variant="caption" className="text-primary">
               Tümünü gör
             </Text>
           </Pressable>
         </View>
 
-        {projects.map(project => (
+        {activeProjects.map(project => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </View>
