@@ -17,9 +17,9 @@ describe('Proje detayı ekranı', () => {
   it('projenin genel bilgilerini gösterir', () => {
     render(<ProjectDetailScreen />);
 
-    expect(screen.getByText('Yalova Villa Projesi')).toBeTruthy();
-    expect(screen.getByText('Kuzey Yapı A.Ş.')).toBeTruthy();
-    expect(screen.getByText('Kocadere, Çınarcık / Yalova')).toBeTruthy();
+    expect(screen.getByText('Çal Bağ Evleri')).toBeTruthy();
+    expect(screen.getByText('Özkan Ailesi')).toBeTruthy();
+    expect(screen.getByText('Süller, Çal / Denizli')).toBeTruthy();
     expect(screen.getByText('184 / 12')).toBeTruthy();
   });
 

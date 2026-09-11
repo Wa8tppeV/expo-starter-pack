@@ -35,8 +35,8 @@ describe('Ana ekran', () => {
   it('demo aktif projelerini gösterir', () => {
     render(<Index />);
 
-    expect(screen.getByText('Yalova Villa Projesi')).toBeTruthy();
-    expect(screen.getByText('Sahil Konutları')).toBeTruthy();
-    expect(screen.queryByText('Merkez Ofis')).toBeNull();
+    expect(screen.getByText('Çal Bağ Evleri')).toBeTruthy();
+    expect(screen.getByText('Aşağıseyit Konutları')).toBeTruthy();
+    expect(screen.queryByText('DMH Çal Ofisi')).toBeNull();
   });
 });
