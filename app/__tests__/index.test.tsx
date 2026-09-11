@@ -4,34 +4,33 @@ import { render, screen } from "@testing-library/react-native";
 
 import Index from "../index";
 
-// Mock useTheme hook and React Native modules
+jest.mock("@expo/vector-icons", () => ({
+  Ionicons: () => null,
+}));
+
 jest.mock("@hooks", () => ({
   useTheme: () => ({
-    resolvedTheme: "light",
+    theme: "light",
     toggleTheme: jest.fn(),
   }),
 }));
 
-// Mock React Native to avoid Flow type issues
-jest.mock("react-native", () => {
-  const actualModule = jest.requireActual("react-native");
-  return {
-    ...actualModule,
-  };
-});
-
-describe("Index Screen", () => {
-  it("renders welcome heading", () => {
+describe("Ana ekran", () => {
+  it("proje ofisi özetini gösterir", () => {
     render(<Index />);
 
-    const heading = screen.getByText("Expo Starter Pack");
-    expect(heading).toBeTruthy();
+    expect(screen.getByText("Proje Ofisi")).toBeTruthy();
+    expect(screen.getByText("₺1.285.000")).toBeTruthy();
+    expect(screen.getByText("4")).toBeTruthy();
+    expect(screen.getByText("12")).toBeTruthy();
+    expect(screen.getByText("3 geciken iş var")).toBeTruthy();
   });
 
-  it("renders theme toggle button", () => {
+  it("demo aktif projelerini gösterir", () => {
     render(<Index />);
 
-    const toggleButton = screen.getByText(/Switch to/i);
-    expect(toggleButton).toBeTruthy();
+    expect(screen.getByText("Yalova Villa Projesi")).toBeTruthy();
+    expect(screen.getByText("Sahil Konutları")).toBeTruthy();
+    expect(screen.getByText("Merkez Ofis")).toBeTruthy();
   });
 });
