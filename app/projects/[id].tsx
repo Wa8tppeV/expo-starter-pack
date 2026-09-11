@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Pressable, ScrollView, View } from 'react-native';
+import { Alert, Pressable, ScrollView, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,12 +8,14 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import {
   DisciplineDetail,
+  ProjectOfficeData,
   WorkStatus,
   formatCurrency,
   formatDate,
   getProjectById,
   getProjectDisciplines,
 } from '@features';
+import { useProjectOfficeStore } from '@project-office-store';
 import { Text } from '@ui';
 
 const statusClasses: Record<WorkStatus, { container: string; text: string }> = {
@@ -63,7 +65,14 @@ function FinancialItem({ label, value }: { label: string; value: string }) {
   );
 }
 
-function DisciplineCard({ discipline }: { discipline: DisciplineDetail }) {
+function DisciplineCard({
+  discipline,
+  projectId,
+}: {
+  discipline: DisciplineDetail;
+  projectId: string;
+}) {
+  const router = useRouter();
   const statusStyle = statusClasses[discipline.status];
   const professionalName = discipline.professional?.name ?? 'Sorumlu atanmadı';
   const professionalCompany = discipline.professional?.company ?? 'Kişi seçilmedi';
@@ -74,15 +83,28 @@ function DisciplineCard({ discipline }: { discipline: DisciplineDetail }) {
       : Math.min((discipline.paidAmount / discipline.agreedFee) * 100, 100);
 
   return (
-    <View className="rounded-3xl border border-border bg-surface-elevated p-5">
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${discipline.type} disiplinini düzenle`}
+      onPress={() =>
+        router.push({
+          pathname: '/projects/[id]/disciplines/[disciplineId]',
+          params: { id: projectId, disciplineId: discipline.id },
+        })
+      }
+      className="rounded-3xl border border-border bg-surface-elevated p-5 active:opacity-80"
+    >
       <View className="flex-row items-center justify-between gap-3">
         <Text variant="h3" className="text-content">
           {discipline.type}
         </Text>
-        <View className={`rounded-full px-3 py-1.5 ${statusStyle.container}`}>
-          <Text variant="small" className={statusStyle.text}>
-            {discipline.status}
-          </Text>
+        <View className="flex-row items-center gap-2">
+          <View className={`rounded-full px-3 py-1.5 ${statusStyle.container}`}>
+            <Text variant="small" className={statusStyle.text}>
+              {discipline.status}
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color="#9B9389" />
         </View>
       </View>
 
@@ -143,7 +165,7 @@ function DisciplineCard({ discipline }: { discipline: DisciplineDetail }) {
           {discipline.note}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -151,7 +173,14 @@ export default function ProjectDetailScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string | string[] }>();
   const projectId = Array.isArray(params.id) ? params.id[0] : params.id;
-  const project = projectId ? getProjectById(projectId) : undefined;
+  const projects = useProjectOfficeStore(state => state.projects);
+  const disciplines = useProjectOfficeStore(state => state.disciplines);
+  const professionals = useProjectOfficeStore(state => state.professionals);
+  const payments = useProjectOfficeStore(state => state.payments);
+  const archiveProject = useProjectOfficeStore(state => state.archiveProject);
+  const restoreProject = useProjectOfficeStore(state => state.restoreProject);
+  const data: ProjectOfficeData = { projects, disciplines, professionals, payments };
+  const project = projectId ? getProjectById(projectId, data) : undefined;
 
   if (!project) {
     return (
@@ -173,7 +202,29 @@ export default function ProjectDetailScreen() {
     );
   }
 
-  const projectDisciplines = getProjectDisciplines(project.id);
+  const projectDisciplines = getProjectDisciplines(project.id, data);
+
+  const handleArchive = () => {
+    if (project.archivedAt) {
+      restoreProject(project.id);
+      return;
+    }
+    Alert.alert(
+      'Projeyi arşivle',
+      `${project.name} aktif listeden kaldırılacak. İstediğiniz zaman geri alabilirsiniz.`,
+      [
+        { text: 'Vazgeç', style: 'cancel' },
+        {
+          text: 'Arşivle',
+          style: 'destructive',
+          onPress: () => {
+            archiveProject(project.id);
+            router.replace('/projects');
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <ScrollView
@@ -199,6 +250,16 @@ export default function ProjectDetailScreen() {
             {project.name}
           </Text>
         </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Projeyi düzenle"
+          onPress={() =>
+            router.push({ pathname: '/projects/[id]/edit', params: { id: project.id } })
+          }
+          className="h-11 w-11 items-center justify-center rounded-2xl border border-border bg-surface-elevated"
+        >
+          <Ionicons name="create-outline" size={20} color="#C17F4F" />
+        </Pressable>
       </View>
 
       <View className="rounded-3xl bg-primary p-5">
@@ -262,9 +323,20 @@ export default function ProjectDetailScreen() {
         </View>
 
         {projectDisciplines.map(discipline => (
-          <DisciplineCard key={discipline.id} discipline={discipline} />
+          <DisciplineCard key={discipline.id} discipline={discipline} projectId={project.id} />
         ))}
       </View>
+
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={project.archivedAt ? 'Projeyi arşivden çıkar' : 'Projeyi arşivle'}
+        onPress={handleArchive}
+        className="min-h-13 items-center justify-center rounded-2xl border border-border bg-surface-elevated px-5 active:opacity-80"
+      >
+        <Text variant="body-medium" className={project.archivedAt ? 'text-primary' : 'text-error'}>
+          {project.archivedAt ? 'Projeyi arşivden çıkar' : 'Projeyi arşivle'}
+        </Text>
+      </Pressable>
     </ScrollView>
   );
 }

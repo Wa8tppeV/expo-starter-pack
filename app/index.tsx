@@ -8,14 +8,15 @@ import { useRouter } from 'expo-router';
 
 import {
   Project,
+  ProjectOfficeData,
   WorkStatus,
   formatCurrency,
   formatShortDate,
   getDashboardSummary,
   getUpcomingDiscipline,
-  projects,
 } from '@features';
 import { useTheme } from '@hooks';
+import { useProjectOfficeStore } from '@project-office-store';
 import { Text } from '@ui';
 
 const statusClasses: Record<WorkStatus, { container: string; text: string }> = {
@@ -50,9 +51,9 @@ function MetricCard({
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, data }: { project: Project; data: ProjectOfficeData }) {
   const router = useRouter();
-  const upcoming = getUpcomingDiscipline(project.id);
+  const upcoming = getUpcomingDiscipline(project.id, data);
   const statusStyle = upcoming ? statusClasses[upcoming.status] : statusClasses.Tamamlandı;
 
   return (
@@ -114,8 +115,15 @@ function ProjectCard({ project }: { project: Project }) {
 export default function Index() {
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
-  const summary = getDashboardSummary();
-  const activeProjects = projects.filter(project => project.status === 'Aktif');
+  const projects = useProjectOfficeStore(state => state.projects);
+  const disciplines = useProjectOfficeStore(state => state.disciplines);
+  const professionals = useProjectOfficeStore(state => state.professionals);
+  const payments = useProjectOfficeStore(state => state.payments);
+  const data = { projects, disciplines, professionals, payments };
+  const summary = getDashboardSummary(data);
+  const activeProjects = projects.filter(
+    project => project.status === 'Aktif' && !project.archivedAt
+  );
 
   return (
     <ScrollView
@@ -170,12 +178,15 @@ export default function Index() {
               {formatCurrency(summary.dueThisMonth)}
             </Text>
           </View>
-          <View className="flex-row items-center gap-1">
+          <Pressable
+            onPress={() => router.push('/payments')}
+            className="flex-row items-center gap-1"
+          >
             <Text variant="caption" className="text-white">
               Ödemeler
             </Text>
             <Ionicons name="arrow-forward" size={16} color="#FFFFFF" />
-          </View>
+          </Pressable>
         </View>
       </View>
 
@@ -233,7 +244,7 @@ export default function Index() {
         </View>
 
         {activeProjects.map(project => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} data={data} />
         ))}
       </View>
     </ScrollView>

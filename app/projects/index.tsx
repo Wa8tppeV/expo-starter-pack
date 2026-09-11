@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Pressable, ScrollView, View } from 'react-native';
 
@@ -9,10 +9,11 @@ import { useRouter } from 'expo-router';
 import {
   LicenseStatus,
   Project,
+  ProjectOfficeData,
   formatShortDate,
   getUpcomingDiscipline,
-  projects,
 } from '@features';
+import { useProjectOfficeStore } from '@project-office-store';
 import { Text } from '@ui';
 
 const licenseClasses: Record<LicenseStatus, { container: string; text: string }> = {
@@ -21,9 +22,9 @@ const licenseClasses: Record<LicenseStatus, { container: string; text: string }>
   'Ruhsat Alındı': { container: 'bg-success/10', text: 'text-success' },
 };
 
-function ProjectListCard({ project }: { project: Project }) {
+function ProjectListCard({ project, data }: { project: Project; data: ProjectOfficeData }) {
   const router = useRouter();
-  const upcoming = getUpcomingDiscipline(project.id);
+  const upcoming = getUpcomingDiscipline(project.id, data);
   const licenseStyle = licenseClasses[project.licenseStatus];
 
   return (
@@ -96,6 +97,13 @@ function ProjectListCard({ project }: { project: Project }) {
 
 export default function ProjectsScreen() {
   const router = useRouter();
+  const [showArchived, setShowArchived] = useState(false);
+  const projects = useProjectOfficeStore(state => state.projects);
+  const disciplines = useProjectOfficeStore(state => state.disciplines);
+  const professionals = useProjectOfficeStore(state => state.professionals);
+  const payments = useProjectOfficeStore(state => state.payments);
+  const data = { projects, disciplines, professionals, payments };
+  const visibleProjects = projects.filter(project => Boolean(project.archivedAt) === showArchived);
 
   return (
     <ScrollView
@@ -104,29 +112,61 @@ export default function ProjectsScreen() {
       contentContainerClassName="gap-5 px-4 pb-12 pt-safe"
       showsVerticalScrollIndicator={false}
     >
-      <View className="flex-row items-center gap-3 pt-4">
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Ana ekrana dön"
-          onPress={() => router.back()}
-          className="h-11 w-11 items-center justify-center rounded-2xl border border-border bg-surface-elevated active:opacity-70"
-        >
-          <Ionicons name="chevron-back" size={22} color="#68615B" />
-        </Pressable>
+      <View className="flex-row items-center justify-between pt-4">
         <View>
           <Text variant="h1-sm" className="text-content">
             Projeler
           </Text>
           <Text variant="caption" className="mt-0.5 text-content-secondary">
-            {projects.length} proje · Güncel durum
+            {visibleProjects.length} proje · {showArchived ? 'Arşiv' : 'Güncel durum'}
           </Text>
         </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Yeni proje ekle"
+          onPress={() => router.push('/projects/new')}
+          className="h-12 flex-row items-center gap-2 rounded-2xl bg-primary px-4 active:opacity-80"
+        >
+          <Ionicons name="add" size={21} color="#FFFFFF" />
+          <Text variant="caption" className="text-white">
+            Yeni
+          </Text>
+        </Pressable>
+      </View>
+
+      <View className="flex-row rounded-2xl bg-surface p-1">
+        {[
+          { label: 'Aktif', value: false },
+          { label: 'Arşiv', value: true },
+        ].map(option => (
+          <Pressable
+            key={option.label}
+            onPress={() => setShowArchived(option.value)}
+            className={`min-h-11 flex-1 items-center justify-center rounded-xl ${
+              showArchived === option.value ? 'bg-surface-elevated' : ''
+            }`}
+          >
+            <Text
+              variant="caption"
+              className={showArchived === option.value ? 'text-primary' : 'text-content-secondary'}
+            >
+              {option.label}
+            </Text>
+          </Pressable>
+        ))}
       </View>
 
       <View className="gap-3">
-        {projects.map(project => (
-          <ProjectListCard key={project.id} project={project} />
+        {visibleProjects.map(project => (
+          <ProjectListCard key={project.id} project={project} data={data} />
         ))}
+        {visibleProjects.length === 0 ? (
+          <View className="items-center rounded-3xl border border-border bg-surface-elevated p-8">
+            <Text variant="body" className="text-content-secondary">
+              Bu bölümde proje yok.
+            </Text>
+          </View>
+        ) : null}
       </View>
     </ScrollView>
   );

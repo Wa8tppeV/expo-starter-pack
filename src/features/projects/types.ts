@@ -9,12 +9,21 @@ export const DISCIPLINE_TYPES = [
 
 export type DisciplineType = (typeof DISCIPLINE_TYPES)[number];
 
-export type WorkStatus =
-  'Başlamadı' | 'Çalışılıyor' | 'Revizyonda' | 'Onay Bekliyor' | 'Tamamlandı';
+export const WORK_STATUSES = [
+  'Başlamadı',
+  'Çalışılıyor',
+  'Revizyonda',
+  'Onay Bekliyor',
+  'Tamamlandı',
+] as const;
+
+export type WorkStatus = (typeof WORK_STATUSES)[number];
 
 export type ProjectStatus = 'Aktif' | 'Tamamlandı';
 
-export type LicenseStatus = 'Hazırlanıyor' | 'Başvuruda' | 'Ruhsat Alındı';
+export const LICENSE_STATUSES = ['Hazırlanıyor', 'Başvuruda', 'Ruhsat Alındı'] as const;
+
+export type LicenseStatus = (typeof LICENSE_STATUSES)[number];
 
 export interface Project {
   id: string;
