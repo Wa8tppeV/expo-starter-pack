@@ -1,4 +1,4 @@
-appId: com.dmhinsaat.projeofisi
+appId: com.atariq.expostarterpack
 ---
 - launchApp
 - assertVisible: "Proje Ofisi"
