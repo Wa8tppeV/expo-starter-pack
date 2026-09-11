@@ -1,10 +1,10 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
-import { Text as RNText, TextProps as RNTextProps } from "react-native";
+import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 
-import Animated from "react-native-reanimated";
+import Animated from 'react-native-reanimated';
 
-import { getTypographyClassName, TypographyVariant } from "@constants";
+import { getTypographyClassName, TypographyVariant } from '@constants';
 
 /**
  * Props for the Text component
@@ -66,9 +66,9 @@ export interface TextProps extends RNTextProps {
  * <Text>Unstyled text</Text>
  */
 export const Text = forwardRef<RNText, TextProps>(
-  ({ variant, className = "", testID, children, ...rest }, ref) => {
+  ({ variant, className = '', testID, children, ...rest }, ref) => {
     // Build the combined className from variant and custom classes
-    let combinedClassName = "";
+    let combinedClassName = '';
 
     if (variant) {
       const variantClass = getTypographyClassName(variant);
@@ -78,19 +78,14 @@ export const Text = forwardRef<RNText, TextProps>(
     }
 
     return (
-      <RNText
-        ref={ref}
-        testID={testID}
-        className={`text-content ${combinedClassName}`}
-        {...rest}
-      >
+      <RNText ref={ref} testID={testID} className={`text-content ${combinedClassName}`} {...rest}>
         {children}
       </RNText>
     );
-  },
+  }
 );
 
 export const AnimatedText = Animated.createAnimatedComponent(Text);
 
-Text.displayName = "Text";
-AnimatedText.displayName = "AnimatedText";
+Text.displayName = 'Text';
+AnimatedText.displayName = 'AnimatedText';

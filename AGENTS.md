@@ -3,6 +3,7 @@
 Bu branch DMH İnşaat için iPhone öncelikli proje-ofisi uygulamasıdır.
 
 ## Öncelikler
+
 1. Kullanıcı maliyeti ve AI kullanımını düşük tut.
 2. Önce repodaki mevcut çözümü yeniden kullan; sonra platform özelliği; en son yeni bağımlılık.
 3. Gereksiz paket, servis, ajan, model veya mimari katman ekleme.
@@ -13,6 +14,7 @@ Bu branch DMH İnşaat için iPhone öncelikli proje-ofisi uygulamasıdır.
 8. Arayüz Türkçe, sade, hızlı ve şantiye/ofis ortamında okunaklı olmalıdır.
 
 ## v1 Modülleri
+
 - Ana Sayfa
 - Projeler
 - Proje Detayı
@@ -20,6 +22,7 @@ Bu branch DMH İnşaat için iPhone öncelikli proje-ofisi uygulamasıdır.
 - Ödemeler
 
 ## Proje Disiplinleri
+
 - Mimari
 - Statik
 - Mekanik
@@ -30,9 +33,11 @@ Bu branch DMH İnşaat için iPhone öncelikli proje-ofisi uygulamasıdır.
 Her disiplinde: sorumlu kişi, anlaşma bedeli, ödenen, kalan, durum, son tarih ve not.
 
 ## Durumlar
+
 Başlamadı, Çalışılıyor, Revizyonda, Onay Bekliyor, Tamamlandı.
 
 ## Teknik yaklaşım
+
 Mevcut Expo + React Native + Expo Router + TypeScript + NativeWind + Zustand yapısını koru.
 Backend gerekmeden önce demo/yerel veriyle çalışan ürün çıkar.
 Backend gerektiğinde mevcut bağlı Supabase'i tercih et.

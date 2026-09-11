@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, ScrollView, View } from 'react-native';
 
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 
-import { useTheme } from "@hooks";
-import { Text } from "@ui";
+import { useTheme } from '@hooks';
+import { Text } from '@ui';
 
-type ProjectStatus = "Çalışılıyor" | "Revizyonda" | "Onay Bekliyor";
+type ProjectStatus = 'Çalışılıyor' | 'Revizyonda' | 'Onay Bekliyor';
 
 interface ProjectSummary {
   id: string;
@@ -20,35 +20,35 @@ interface ProjectSummary {
 
 const projects: ProjectSummary[] = [
   {
-    id: "yalova-villa",
-    name: "Yalova Villa Projesi",
-    location: "Çınarcık / Yalova",
+    id: 'yalova-villa',
+    name: 'Yalova Villa Projesi',
+    location: 'Çınarcık / Yalova',
     progress: 72,
-    status: "Çalışılıyor",
-    nextDiscipline: "Mekanik proje · 18 Eyl",
+    status: 'Çalışılıyor',
+    nextDiscipline: 'Mekanik proje · 18 Eyl',
   },
   {
-    id: "sahil-konutlari",
-    name: "Sahil Konutları",
-    location: "Mudanya / Bursa",
+    id: 'sahil-konutlari',
+    name: 'Sahil Konutları',
+    location: 'Mudanya / Bursa',
     progress: 48,
-    status: "Revizyonda",
-    nextDiscipline: "Statik proje · 22 Eyl",
+    status: 'Revizyonda',
+    nextDiscipline: 'Statik proje · 22 Eyl',
   },
   {
-    id: "merkez-ofis",
-    name: "Merkez Ofis",
-    location: "Nilüfer / Bursa",
+    id: 'merkez-ofis',
+    name: 'Merkez Ofis',
+    location: 'Nilüfer / Bursa',
     progress: 86,
-    status: "Onay Bekliyor",
-    nextDiscipline: "Elektrik proje · 26 Eyl",
+    status: 'Onay Bekliyor',
+    nextDiscipline: 'Elektrik proje · 26 Eyl',
   },
 ];
 
 const statusClasses: Record<ProjectStatus, string> = {
-  Çalışılıyor: "bg-info/10 text-info",
-  Revizyonda: "bg-warning/10 text-warning",
-  "Onay Bekliyor": "bg-primary/10 text-primary",
+  Çalışılıyor: 'bg-info/10 text-info',
+  Revizyonda: 'bg-warning/10 text-warning',
+  'Onay Bekliyor': 'bg-primary/10 text-primary',
 };
 
 function MetricCard({
@@ -110,7 +110,10 @@ function ProjectCard({ project }: { project: ProjectSummary }) {
         </Text>
       </View>
       <View className="mt-2 h-2 overflow-hidden rounded-full bg-surface">
-        <View className="h-full rounded-full bg-primary" style={{ width: `${project.progress}%` }} />
+        <View
+          className="h-full rounded-full bg-primary"
+          style={{ width: `${project.progress}%` }}
+        />
       </View>
 
       <View className="mt-4 flex-row items-center justify-between border-t border-border pt-4">
@@ -152,9 +155,9 @@ export default function Index() {
           className="h-12 w-12 items-center justify-center rounded-2xl border border-border bg-surface-elevated active:opacity-70"
         >
           <Ionicons
-            name={theme === "light" ? "moon-outline" : "sunny-outline"}
+            name={theme === 'light' ? 'moon-outline' : 'sunny-outline'}
             size={22}
-            color={theme === "light" ? "#1A1715" : "#F5F1ED"}
+            color={theme === 'light' ? '#1A1715' : '#F5F1ED'}
           />
         </Pressable>
       </View>
@@ -199,9 +202,9 @@ export default function Index() {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Geciken işleri görüntüle"
-        className="flex-row items-center gap-4 rounded-3xl border border-error/20 bg-error/10 p-4 active:opacity-70"
+        className="border-error/20 bg-error/10 flex-row items-center gap-4 rounded-3xl border p-4 active:opacity-70"
       >
-        <View className="h-11 w-11 items-center justify-center rounded-2xl bg-error/15">
+        <View className="bg-error/15 h-11 w-11 items-center justify-center rounded-2xl">
           <Ionicons name="alert-circle-outline" size={23} color="#C73E3A" />
         </View>
         <View className="flex-1">
@@ -232,7 +235,7 @@ export default function Index() {
           </Pressable>
         </View>
 
-        {projects.map((project) => (
+        {projects.map(project => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </View>

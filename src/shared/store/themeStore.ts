@@ -1,10 +1,10 @@
-import { createMMKV } from "react-native-mmkv";
-import { create } from "zustand";
+import { createMMKV } from 'react-native-mmkv';
+import { create } from 'zustand';
 
 const storage = createMMKV();
-const THEME_STORAGE_KEY = "theme_preference";
+const THEME_STORAGE_KEY = 'theme_preference';
 
-type ThemeMode = "light" | "dark" | "system";
+type ThemeMode = 'light' | 'dark' | 'system';
 
 interface ThemeStore {
   // State - only for persistence
@@ -19,7 +19,7 @@ interface ThemeStore {
 const getInitialTheme = (): ThemeMode | null => {
   try {
     const saved = storage.getString(THEME_STORAGE_KEY);
-    if (saved === "light" || saved === "dark" || saved === "system") {
+    if (saved === 'light' || saved === 'dark' || saved === 'system') {
       return saved;
     }
     return null;
@@ -28,7 +28,7 @@ const getInitialTheme = (): ThemeMode | null => {
   }
 };
 
-export const useThemeStore = create<ThemeStore>((set) => ({
+export const useThemeStore = create<ThemeStore>(set => ({
   savedTheme: getInitialTheme(),
 
   saveTheme: (theme: ThemeMode) => {
@@ -36,7 +36,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
       storage.set(THEME_STORAGE_KEY, theme);
       set({ savedTheme: theme });
     } catch (error) {
-      console.error("Failed to save theme preference:", error);
+      console.error('Failed to save theme preference:', error);
     }
   },
 

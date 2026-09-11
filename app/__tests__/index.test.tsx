@@ -1,36 +1,36 @@
-import React from "react";
+import React from 'react';
 
-import { render, screen } from "@testing-library/react-native";
+import { render, screen } from '@testing-library/react-native';
 
-import Index from "../index";
+import Index from '../index';
 
-jest.mock("@expo/vector-icons", () => ({
+jest.mock('@expo/vector-icons', () => ({
   Ionicons: () => null,
 }));
 
-jest.mock("@hooks", () => ({
+jest.mock('@hooks', () => ({
   useTheme: () => ({
-    theme: "light",
+    theme: 'light',
     toggleTheme: jest.fn(),
   }),
 }));
 
-describe("Ana ekran", () => {
-  it("proje ofisi özetini gösterir", () => {
+describe('Ana ekran', () => {
+  it('proje ofisi özetini gösterir', () => {
     render(<Index />);
 
-    expect(screen.getByText("Proje Ofisi")).toBeTruthy();
-    expect(screen.getByText("₺1.285.000")).toBeTruthy();
-    expect(screen.getByText("4")).toBeTruthy();
-    expect(screen.getByText("12")).toBeTruthy();
-    expect(screen.getByText("3 geciken iş var")).toBeTruthy();
+    expect(screen.getByText('Proje Ofisi')).toBeTruthy();
+    expect(screen.getByText('₺1.285.000')).toBeTruthy();
+    expect(screen.getByText('4')).toBeTruthy();
+    expect(screen.getByText('12')).toBeTruthy();
+    expect(screen.getByText('3 geciken iş var')).toBeTruthy();
   });
 
-  it("demo aktif projelerini gösterir", () => {
+  it('demo aktif projelerini gösterir', () => {
     render(<Index />);
 
-    expect(screen.getByText("Yalova Villa Projesi")).toBeTruthy();
-    expect(screen.getByText("Sahil Konutları")).toBeTruthy();
-    expect(screen.getByText("Merkez Ofis")).toBeTruthy();
+    expect(screen.getByText('Yalova Villa Projesi')).toBeTruthy();
+    expect(screen.getByText('Sahil Konutları')).toBeTruthy();
+    expect(screen.getByText('Merkez Ofis')).toBeTruthy();
   });
 });
