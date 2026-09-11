@@ -1,0 +1,7 @@
+appId: com.dmhinsaat.projeofisi
+---
+- launchApp
+- assertVisible: "Proje Ofisi"
+- assertVisible: "Aktif projeler"
+- tapOn: "Tümünü gör"
+- assertVisible: "Projeler"
