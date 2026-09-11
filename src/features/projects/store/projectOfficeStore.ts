@@ -1,6 +1,6 @@
 import { createMMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import { createJSONStorage, persist, StateStorage } from 'zustand/middleware';
+import type { StateStorage } from 'zustand/middleware';
 
 import { disciplines, payments, professionals, projects } from '../data/mockData';
 import {
@@ -14,6 +14,13 @@ import {
   ProjectOfficeData,
   WorkStatus,
 } from '../types';
+
+// Metro web currently emits Zustand's ESM middleware as a classic script.
+// Requiring the equivalent CJS entry prevents an unsupported `import.meta` token.
+/* eslint-disable @typescript-eslint/no-require-imports */
+const { createJSONStorage, persist } =
+  require('zustand/middleware') as typeof import('zustand/middleware');
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 const storage = createMMKV();
 
