@@ -1,7 +1,7 @@
 appId: com.atariq.expostarterpack
 ---
 - launchApp
-- assertVisible: "Proje Ofisi"
-- assertVisible: "Aktif projeler"
-- tapOn: "Tümünü gör"
-- assertVisible: "Projeler"
+- assertVisible: 'Proje Ofisi'
+- assertVisible: 'Aktif projeler'
+- tapOn: 'Tümünü gör'
+- assertVisible: 'Projeler'
